@@ -67,11 +67,13 @@ class Rational {
     int num;
     private int denom;
 
-    public void setDenom(int nb) {
-    if (nb <= 0) {
-        throw new IllegalArgumentException("Le dénominateur doit être non nul !");
+    // Constructeur
+    public Rational(int num, int denom) {
+        if (denom == 0) {
+            throw new IllegalArgumentException("Le dénominateur ne peut pas être nul !");
         }
-        this.denom = nb;
+        this.num = num;
+        this.denom = denom;
     }
 
 
@@ -80,6 +82,17 @@ class Rational {
     }
 
     public void mult(Rational b) {
-        
+        this.num = this.num * b.num;
+        this.denom = this.denom * b.denom;
     } 
+}
+
+// Écrivez un programme de test qui crée une fraction 3/2, affiche son numérateur, et affiche son dénominateur (dans la console)
+class test {
+    public static void main(String[] args){
+        Rational fraction = new Rational(3,2);
+        Rational fraction2 = new Rational(1,2);
+        fraction.mult(fraction2);
+        System.out.println(fraction.toString());
+    }
 }
