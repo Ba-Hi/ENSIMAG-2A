@@ -1,0 +1,138 @@
+---
+title: 'TP 1 : Simulation et programmation en R'
+author: ''
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# TP 1 : Simulation et programmation en R
+
+On considère la loi de probabilité définie sur $\mathbb{R}^2$ par :
+
+$$
+p(y, \theta) = \frac{1}{16 \pi} \exp \Bigg[ - \frac{1}{32} \left( 8 y^2 - 4 y \theta + \theta^2 \right) \Bigg]
+$$
+
+On rappelle que la loi normale $N(m, \sigma^2)$, définie sur $\mathbb{R}$, admet pour densité la fonction suivante :
+
+$$
+p(y) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \Bigg[ - \frac{1}{2\sigma^2} (y - m)^2 \Bigg]
+$$
+
+##### Q1. Identifier la loi générative $p(y \mid \theta)$ puis la loi a priori $p(\theta)$.
+
+On a :
+
+$$
+p(y \mid \theta) = \frac{p(y, \theta)}{p(\theta)} \\
+\propto p(y, \theta) \\
+\propto \exp \Bigg[ - \frac{1}{32} \left( 8 y^2 - 4 y \theta + \theta^2 \right) \Bigg] \\
+\propto \exp \Bigg[ - \frac{1}{4} \left( y^2 - \frac{1}{2} y \theta + (\frac{\theta}{4})^2 \right) \Bigg] \\
+\propto \exp \Bigg[ - \frac{1}{4} \left(y - \frac{\theta}{4} \right )^2 \Bigg]
+$$
+
+On peut identifier la loi générative $p(y \mid \theta)$ comme une loi normale :
+
+$$
+\boxed{y \mid \theta \sim \mathcal{N}\Big(m = \frac{\theta}{4}, \, \sigma^2 = 2 \Big)}
+$$
+
+ou équivalemment, sa densité :
+
+$$
+p(y \mid \theta) = \frac{1}{\sqrt{4 \pi}} \exp \Bigg[ - \frac{1}{4} \left(y - \frac{\theta}{4}\right)^2 \Bigg]
+$$
+
+On peut ainsi déduire le loi a priori $p(\theta)$ :
+
+On sait que :
+
+$$
+p(\theta) = \frac{p(y, \theta)}{p(y \mid \theta)}\\
+= \frac{\frac{1}{16 \pi} \exp \Bigg[ - \frac{1}{32} \left( 8 y^2 - 4 y \theta + \theta^2 \right) \Bigg]}{\frac{1}{\sqrt{4 \pi}} \exp \Bigg[ - \frac{1}{4} \left(y - \frac{\theta}{4}\right)^2 \Bigg]} \\
+= \frac{2 \sqrt{\pi}}{16 \pi} \exp  \Bigg[ - \frac{1}{4} \left( y^2 - \frac{1}{2}y \theta + \frac{\theta^2}{8} - y^2 +  \frac{1}{2}y \theta - \frac{\theta ^2}{16}\right) \Bigg] \\
+= \frac{1}{8 \sqrt{\pi}} \exp \left( - \frac{1}{2.32} \theta^2 \right)
+$$
+
+Conclusion :\
+$$
+\boxed{\theta \sim \mathcal{N}\Big(m = 0, \, \sigma^2 = 32 \Big)}
+$$
+
+##### Q2. Identifier la loi a posteriori $p(\theta \mid y)$ puis la loi marginale $p(y)$.
+
+De la même façon que Q1:
+
+$$
+p(\theta \mid y) = \frac{p(y, \theta)}{p(y)} \\
+\propto p(y, \theta) \\
+\propto \exp \Bigg[ - \frac{1}{32} \left( 8 y^2 - 4 y \theta + \theta^2 \right) \Bigg] \\
+\propto \exp \Bigg[ - \frac{1}{32} \left(\theta^2  - 4 y \theta \right) \Bigg] \\
+\propto \exp \Bigg[ - \frac{1}{32} \left(\theta  - 2 y\right)^2 \Bigg]
+$$Ainsi :
+
+$$
+\boxed{\theta \mid y \sim \mathcal{N}\Big(m = 2y, \, \sigma^2 = 16 \Big)}
+$$
+
+et :
+
+$$
+p(y) = \frac{p(y, \theta)}{p(\theta \mid y)}\\
+= \frac{\frac{1}{16 \pi} \exp \Bigg[ - \frac{1}{32} \left( 8 y^2 - 4 y \theta + \theta^2 \right) \Bigg]}{\frac{1}{\sqrt{32 \pi}} \exp \Bigg[ - \frac{1}{4} \left(y - \frac{\theta}{4}\right)^2 \Bigg]} \\
+$$
+
+Tout calcul fait donne :
+
+$$
+p(y) = \frac{1}{2 \sqrt{2 \pi}} \exp (- \frac{1}{8} y^2 ) 
+$$
+
+et donc
+
+$$
+\boxed{y \sim \mathcal{N}\Big(m = 0, \, \sigma^2 = 4 \Big)}
+$$
+
+##### Q3. Ecrire un programme en langage $R$ permettant de simuler des tirages selon la loi de densité $p(y, \theta)$.
+
+```{r}
+N <- 10000
+
+theta1 <- rnorm(N, mean = 0, sd = sqrt(32)) # on commence par theta
+y1 <- rnorm(N, mean = theta1/4, sd = sqrt(2)) # y sachant theta
+sim_data <- data.frame(theta1, y1) 
+
+y2 <- rnorm(N, mean = 0, sd = sqrt(4)) # on commence par y
+theta2 <- rnorm(N, mean = 2*y2, sd = sqrt(16)) # theta sachant y
+sim_data2 <- data.frame(theta2, y2)
+```
+
+##### Q4. Calculer l’espérance de la loi conditionnelle $p(\theta \mid y)$.
+
+On a :
+
+$$\theta \mid y \sim \mathcal{N}\Big(m = 2y, \, \sigma^2 = 16 \Big)
+$$
+
+Donc :
+
+$$
+\boxed{ \mathbb{E}[\theta \mid y ] = 2y }
+$$
+
+##### Q5. Effectuer 1000 tirages de loi $p(y, \theta)$. Représenter graphiquement les tirages en couleur grise, et superposer en couleur bleue la courbe qui, à y, associe l’espérance $\mathbb{E}[\theta \mid y]$
+
+```{r}
+N <- 1000
+theta <- rnorm(N, mean = 0, sd = sqrt(32))
+y <- rnorm(N, mean = theta/4, sd = sqrt(2))
+plot(y, theta, col = "grey",
+     main = expression(paste("1000 tirages de p(y,theta)")))
+
+curve(2*x, col = "blue", add = TRUE)
+```
+
+Le graphe montre que les données simulées (gris) sont centrées autour de la droite bleue (moyenne conditionnelle), la simulation est donc cohérente avec la théorie.
