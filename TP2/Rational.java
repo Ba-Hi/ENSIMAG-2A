@@ -12,6 +12,11 @@ class Rational {
         simplifier();
     }
 
+    public Rational(Rational other) { 
+        this.num = other.num;
+        this.denom = other.denom;
+    }
+
     private void simplifier(){
         int pgcd = pgcd(this.num, this.denom);
         if (pgcd == 1) {
@@ -19,6 +24,10 @@ class Rational {
         }
         this.num = this.num/pgcd;
         this.denom = this.denom/pgcd;
+        if (this.denom < 0) {
+            this.denom = -this.denom;
+            this.num = -this.num;
+        }
     }
 
     private static int pgcd(int a, int b){
@@ -32,34 +41,17 @@ class Rational {
         return this.num + " / " + this.denom;
     }
 
-}
 
-class Vector {
-    private int n; // taille du tableau
-    private Rational[] tab; // tableau de rationnels
+    public void mult(Rational b) {
+        this.num = this.num * b.num;
+        this.denom = this.denom * b.denom;
+        simplifier();
+    }
 
-    // Constructeur
-    public vector(int n) {
-        this.n = n;
-        this.tab = new Rational[n];
+    public void addition(Rational b){
+        this.num = this.num * b.denom + b.num * this.denom;
+        this.denom = this.denom * b.denom;
+        simplifier();
     }
-    
-    public String toString() {
-        System.out.println("( ");
-        for (Rational r : tab){
-            System.out.println(r.toString() + " , ");
-        }
-        System.out.println(" )");
-    }
-}
 
-class q8 {
-    public static void main(String[] args) {
-        int n = 2;
-        vector v = new vector(n);
-        for (int i = 0; i < n; i++) {
-            pangolins[i] = new Rational(1, 2);  // allocation objet par objet
-        }
-        System.out.println(v.toString());
-    }
 }
