@@ -3,8 +3,8 @@ title: 'TP 1 : Simulation et programmation en R'
 author: ''
 date: "`r Sys.Date()`"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 # TP 1 : Simulation et programmation en R
@@ -136,3 +136,113 @@ curve(2*x, col = "blue", add = TRUE)
 ```
 
 Le graphe montre que les données simulées (gris) sont centrées autour de la droite bleue (moyenne conditionnelle), la simulation est donc cohérente avec la théorie.
+
+##### Q6. Superposer en couleur orange la droite de régression linéaire de la variable $\theta$ par la variable y.
+
+```{r}
+plot(y, theta, col = "grey",
+     main = expression(paste("1000 tirages de p(y,theta)")))
+
+curve(2*x, col = "blue", add = TRUE)
+droite_rl <- lm(theta ~ y)
+abline(droite_rl, col = "orange")
+```
+
+-   La droite orange coïncide approximativement avec la bleue montre que la simulation est cohérente avec la théorie.
+
+Le graphe confirme que les simulations respectent bien la loi conjointe donnée, avec une espérance conditionnelle parfaitement alignée sur la droite $\theta = 2y$
+
+##### Q7. Effectuer 100000 tirages de la loi $p(y, \theta)$. Programmer en langage $R$ un algorithme rejetant les valeurs de la variable \$\\theta\$ telles que la variable y se trouve en dehors de l’intervalle 1.99, 2.01.
+
+```{r}
+N <- 100000 
+theta <- rnorm(N, mean = 0, sd = sqrt(32)) # simuler theta ~ N(0, 32)
+y <- rnorm(N, mean = theta/4, sd = sqrt(2)) # simuler y|theta ~ N(theta/4, 2)
+sim_data <- data.frame(theta = theta, y = y) 
+
+theta_q7 <- theta[y<= 2.01 & y>=1.99]
+```
+
+##### Q8. Tracer l’histogramme des valeurs retenues par l’algorithme. Interpréter l’histogramme ainsi obtenu.
+
+```{r}
+hist(theta_q7)
+```
+
+On remarque que le nombre d'échantillons accepté \<\< 10 000 vu la restriction sur y
+
+On sait que $$\theta \mid y \sim \mathcal{N}\Big(m = 2y, \, \sigma^2 = 16 \Big)$$, l'histogramme montre qu'on a une loi normale centrée autour 4 = 2 \* y (1.99 \<= y \<= 2.01 donc y $\approx$ 2)
+
+```{r}
+mean(theta_q7)
+sd(theta_q7)
+```
+
+Ce qui confirme ce qu'on a obtenu théoriquement !
+
+##### Q9. Justifier le fait que la loi de densité $p(y, \theta)$ est caractérisée par la donnée des lois conditionnelles $p(y|\theta)$ et $p(\theta|y)$.
+
+On a d'après la formule de Bayes :
+
+$$
+p(y,\theta) = p(y \mid \theta)\, p(\theta) = p(\theta \mid y)\, p(y)
+$$
+
+En particulier, on peut exprimer la densité marginale $p(\theta)$ à partir de la conditionnelle $p(\theta\mid y)$ et de la marginale $p(y)$ : $$
+p(\theta)=\int p(\theta\mid y)\,p(y)\,dy.
+$$
+
+Ainsi, la loi conjointe $p(y,\theta)$ est entièrement caractérisée :
+
+-   soit par la loi conditionnelle $p(y \mid \theta)$ et la loi marginale $p(\theta)$
+
+-   soit par la loi conditionnelle $p(\theta \mid y)$ et la loi marginale $p(y)$
+
+En d’autres termes, connaître les lois conditionnelles permet de reconstruire complètement la loi conjointe.
+
+##### Q10. Ecrire un programme en langage $R$ permettant de simuler l’algorithme d’échantillonnage de Gibbs. Effectuer 1000 tirages du couple $(y, \theta)$ en prenant 1000 valeurs successives après avoir éliminé les premières valeurs afin de perdre la condition initiale.
+
+```{r}
+n_iter <- 2000   # nombre total d'itérations
+n_elimine <- 1000  # pour perdre la condition initiale
+theta <- numeric(n_iter)
+y <- numeric(n_iter)
+theta[1] <- 0
+
+for (t in 2:n_iter) {
+  y[t] <- rnorm(1, mean = theta[t-1]/4, sd = sqrt(2))
+  theta[t] <- rnorm(1, mean = y[t]*2, sd = sqrt(16))
+}
+
+theta_post <- theta[(n_elimine+1):n_iter]
+y_post <- y[(n_elimine+1):n_iter]
+mean(y_post)
+mean(theta_post)
+sd(y_post)
+sd(theta_post)
+
+n_iter2 <- 1100   # nombre total d'itérations
+n_elimine2 <- 100  # pour perdre la condition initiale
+
+theta2 <- numeric(n_iter2)
+y2 <- numeric(n_iter2)
+theta2[1] <- 0
+
+for (t in 2:n_iter2) {
+  y2[t] <- rnorm(1, mean = theta2[t-1]/4, sd = sqrt(2))
+  theta2[t] <- rnorm(1, mean = y2[t]*2, sd = sqrt(16))
+}
+
+theta_post2 <- theta2[(n_elimine2+1):n_iter2]
+y_post2 <- y2[(n_elimine2+1):n_iter2]
+
+mean(y_post2)
+mean(theta_post2)
+sd(y_post2)
+sd(theta_post2)
+```
+
+Avec **2000 itérations et 1000 éliminées** :
+
+
+Avec **1100 itérations et seulement 100 éliminées** :
