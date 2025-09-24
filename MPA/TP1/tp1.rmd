@@ -1,10 +1,11 @@
 ---
 title: 'TP 1 : Simulation et programmation en R'
-author: ''
-date: "`r Sys.Date()`"
+subtitle: "Modèles probabilistes pour l'apprentissage - MPA"
+author: 'Hiba HANINI, Marwane HAJJY, Hiba FAHLI'
+date: "25/09/2025"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 # TP 1 : Simulation et programmation en R
@@ -23,7 +24,7 @@ $$
 
 ##### Q1. Identifier la loi générative $p(y \mid \theta)$ puis la loi a priori $p(\theta)$.
 
-On a :
+On a d'après Bayes:
 
 $$
 p(y \mid \theta) = \frac{p(y, \theta)}{p(\theta)} \\
@@ -47,7 +48,7 @@ $$
 
 On peut ainsi déduire le loi a priori $p(\theta)$ :
 
-On sait que :
+On sait que (Bayes) :
 
 $$
 p(\theta) = \frac{p(y, \theta)}{p(y \mid \theta)}\\
@@ -99,15 +100,10 @@ $$
 ##### Q3. Ecrire un programme en langage $R$ permettant de simuler des tirages selon la loi de densité $p(y, \theta)$.
 
 ```{r}
+set.seed(123) # Reproductibilité des résultats
 N <- 10000
-
-theta1 <- rnorm(N, mean = 0, sd = sqrt(32)) # on commence par theta
-y1 <- rnorm(N, mean = theta1/4, sd = sqrt(2)) # y sachant theta
-sim_data <- data.frame(theta1, y1) 
-
-y2 <- rnorm(N, mean = 0, sd = sqrt(4)) # on commence par y
-theta2 <- rnorm(N, mean = 2*y2, sd = sqrt(16)) # theta sachant y
-sim_data2 <- data.frame(theta2, y2)
+theta <- rnorm(N, mean = 0, sd = sqrt(32)) # on commence par theta
+y <- rnorm(N, mean = theta/4, sd = sqrt(2)) # y sachant theta
 ```
 
 ##### Q4. Calculer l’espérance de la loi conditionnelle $p(\theta \mid y)$.
@@ -126,13 +122,14 @@ $$
 ##### Q5. Effectuer 1000 tirages de loi $p(y, \theta)$. Représenter graphiquement les tirages en couleur grise, et superposer en couleur bleue la courbe qui, à y, associe l’espérance $\mathbb{E}[\theta \mid y]$
 
 ```{r}
+set.seed(123)
 N <- 1000
 theta <- rnorm(N, mean = 0, sd = sqrt(32))
 y <- rnorm(N, mean = theta/4, sd = sqrt(2))
 plot(y, theta, col = "grey",
      main = expression(paste("1000 tirages de p(y,theta)")))
-
 curve(2*x, col = "blue", add = TRUE)
+legend("topleft", legend = "E[theta |y] (théorique)", col = "blue", lwd = 2, lty = 1, bty="n" )
 ```
 
 Le graphe montre que les données simulées (gris) sont centrées autour de la droite bleue (moyenne conditionnelle), la simulation est donc cohérente avec la théorie.
@@ -141,11 +138,12 @@ Le graphe montre que les données simulées (gris) sont centrées autour de la d
 
 ```{r}
 plot(y, theta, col = "grey",
-     main = expression(paste("1000 tirages de p(y,theta)")))
+     main = expression("1000 tirages de " ~ p(y, theta)))
 
 curve(2*x, col = "blue", add = TRUE)
 droite_rl <- lm(theta ~ y)
-abline(droite_rl, col = "orange")
+abline(droite_rl, col = "orange", lty = 2, lwd = 2)
+legend("topleft", legend = c(expression(E(theta ~ "|" ~ y) ~ "(théorique)"), expression("Régression linéaire de " * theta ~ " par " * y)), col = c("blue", "orange"), lwd = 2, lty = c(1,2), bty="n")
 ```
 
 -   La droite orange coïncide approximativement avec la bleue montre que la simulation est cohérente avec la théorie.
@@ -166,7 +164,24 @@ theta_q7 <- theta[y<= 2.01 & y>=1.99]
 ##### Q8. Tracer l’histogramme des valeurs retenues par l’algorithme. Interpréter l’histogramme ainsi obtenu.
 
 ```{r}
-hist(theta_q7)
+hist(theta_q7, prob = TRUE, col = "lightblue", main = expression("Distribution de " * theta * " | 1.99 <= y <= 2.01"), xlab = expression(theta), ylab = "Densité")
+
+lines(density(theta_q7), col = "red", lwd=2 )
+curve(dnorm(x, mean = mean(theta_q7), sd = sd(theta_q7)), 
+      col = "darkgreen", 
+      lwd = 2, 
+      lty = 2, 
+      add = TRUE)
+legend("topright", 
+       legend = c("Histogramme (échantillon)", 
+                  "Densité empirique", 
+                  "Normale ajustée"),
+       col = c("lightblue", "red", "darkgreen"),
+       lty = c(NA, 1, 2),
+       lwd = c(NA, 2, 2),
+       pch = c(15, NA, NA),
+       pt.cex = 2,
+       bty = "n")
 ```
 
 On remarque que le nombre d'échantillons accepté \<\< 10 000 vu la restriction sur y
@@ -203,6 +218,7 @@ En d’autres termes, connaître les lois conditionnelles permet de reconstruire
 ##### Q10. Ecrire un programme en langage $R$ permettant de simuler l’algorithme d’échantillonnage de Gibbs. Effectuer 1000 tirages du couple $(y, \theta)$ en prenant 1000 valeurs successives après avoir éliminé les premières valeurs afin de perdre la condition initiale.
 
 ```{r}
+set.seed(123) 
 n_iter <- 2000   # nombre total d'itérations
 n_elimine <- 1000  # pour perdre la condition initiale
 theta <- numeric(n_iter)
@@ -216,13 +232,14 @@ for (t in 2:n_iter) {
 
 theta_post <- theta[(n_elimine+1):n_iter]
 y_post <- y[(n_elimine+1):n_iter]
-mean(y_post)
-mean(theta_post)
-sd(y_post)
-sd(theta_post)
 
-n_iter2 <- 1100   # nombre total d'itérations
-n_elimine2 <- 100  # pour perdre la condition initiale
+cat("2000 itérations avec élimination de 1000 :\n")
+cat("Moyenne de y :", mean(y_post), "\n")
+cat("Moyenne de theta :", mean(theta_post), "\n\n")
+
+
+n_iter2 <- 1010   # nombre total d'itérations
+n_elimine2 <- 10  # pour perdre la condition initiale
 
 theta2 <- numeric(n_iter2)
 y2 <- numeric(n_iter2)
@@ -236,13 +253,30 @@ for (t in 2:n_iter2) {
 theta_post2 <- theta2[(n_elimine2+1):n_iter2]
 y_post2 <- y2[(n_elimine2+1):n_iter2]
 
-mean(y_post2)
-mean(theta_post2)
-sd(y_post2)
-sd(theta_post2)
+cat("1010 itérations avec élimination de 10 :\n")
+cat("Moyenne de y :", mean(y_post2), "\n")
+cat("Moyenne de theta :", mean(theta_post2), "\n")
+
 ```
 
-Avec **2000 itérations et 1000 éliminées** :
+On observe que les moyennes de y et theta sont très proches de la valeur théorique dans les deux simulations, malgré le nombre différent d'itérations éliminées.
+Cela peut être justifié par la convergence rapidement des éléments vers 0, et qu'$n\_elimine$ très grand n’est pas nécessaire dans ce cas précis pour perdre la condition initiale
 
 
-Avec **1100 itérations et seulement 100 éliminées** :
+```{r}
+
+par(mfrow = c(2,1))
+plot(theta, type = "l", main = "Traceplot de theta", xlab = "Indice t", ylab = "theta")
+abline(h = mean(theta_post), col = "red")
+
+plot(y, type = "l", main = "Traceplot de y",xlab = "Indice t", ylab = "y")
+abline(h = mean(y_post), col = "red")
+```
+
+<!-- $\theta$ et $y$ fluctuent autour de leur moyenne dès le début, sans tendance à la hausse ou à la baisse sur de longues périodes. -->
+Cela indique que les variables ont convergé rapidement et que le $n\_elimine$ n’a pas besoin d’être très grand
+
+Conclusion :
+Le nombre d’itérations éliminées n’a pas beaucoup d’importance ici.
+
+
