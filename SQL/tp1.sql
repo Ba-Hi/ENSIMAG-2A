@@ -32,7 +32,7 @@ WHERE hotels.CatH = 2
       AND rooms.NH = hotels.NH
       AND resorts.NS = rooms.ns;
 
--- Q6 :
+-- Q6 : *****
 SELECT DISTINCT Guests.NCl, NomCl
 FROM GUESTS, Bookings, Resorts, Rooms
 WHERE guests.NCL = bookings.NCL
@@ -41,7 +41,7 @@ WHERE guests.NCL = bookings.NCL
       AND bookings.NCH = rooms.NCH
       AND Resorts.NS = Rooms.NS
       AND resorts.types LIKE 'mer'
-      AND rooms.typch LIKE 'D';
+      AND rooms.typch IN ('D','DWC');
       
 -- Q7 :
 SELECT DISTINCT NomCl
@@ -66,7 +66,7 @@ WHERE CatH = 4
 SELECT DISTINCT h.nh, h.ns, h.nomh, h.adrH, h.cath
 FROM hotels h, rooms r1, rooms r2
 WHERE r1.NS = r2.NS
-      AND r1. NH = r2.NH
+      AND r1.NH = r2.NH
       AND r1.NCH != r2.NCH
       AND r1.prix = r2.prix
       AND r1.NS = h.NS
@@ -79,8 +79,91 @@ WHERE h.ns = b.ns(+)
       AND h.nh = b.nh(+)
 GROUP BY h.ns, h.nh, h.NomH, h.AdrH, h.CatH;
 
+-- OU BIEN !!! :
+SELECT DISTINCT h.ns, h.nh, h.NomH, h.AdrH, h.CatH, count(*)
+FROM hotels h, bookings b
+WHERE h.ns = b.ns
+      AND h.nh = b.nh
+GROUP BY h.ns, h.nh, h.NomH, h.AdrH, h.CatH
+UNION
+(SELECT h.ns, h.nh, h.NomH, h.AdrH, CatH, 0 AS NbReservation -- + même schéma
+FROM hotels h
+WHERE (h.ns, h.nh) NOT IN (SELECT DISTINCT ns, nh FROM Bookings)
+);
+-- Chercher les hotels not in booking + même schéma
+
+-- Q11 :
+SELECT h.ns,h.nh, h.adrH, h.nomh
+FROM hotels h, resorts re, bookings b
+WHERE re.noms LIKE 'Chamonix'
+      AND h.ns = re.ns
+      AND h.ns = b.ns
+      AND h.nh = b.nh
+      AND b.ncl != 0
+GROUP BY h.adrH, h.nomh, h.ns, h.nh
+HAVING count(*) = ( -- count(b.ncl) suffit)
+SELECT max(count(*))
+FROM hotels h, resorts re, bookings b
+WHERE re.noms LIKE 'Chamonix'
+      AND h.ns = re.ns
+      AND h.ns = b.ns
+      AND h.nh = b.nh
+      AND b.ncl != 0
+GROUP BY h.adrH, h.nomh, h.ns, h.nh
+);
+
+-- OU BIEN !!
+SELECT h.ns,h.nh, h.adrH, h.nomh
+FROM hotels h, resorts re, bookings b
+WHERE re.noms LIKE 'Chamonix'
+      AND h.ns = re.ns
+      AND h.ns = b.ns
+      AND h.nh = b.nh
+      AND b.ncl != 0
+GROUP BY h.adrH, h.nomh, h.ns, h.nh
+HAVING count(*) >= ALL
+(SELECT count(*)
+FROM hotels h, resorts re, bookings b
+WHERE re.noms LIKE 'Chamonix'
+      AND h.ns = re.ns
+      AND h.ns = b.ns
+      AND h.nh = b.nh
+      AND b.ncl != 0
+GROUP BY h.adrH, h.nomh, h.ns, h.nh
+);
 
 
+-- Q12 :
+SELECT b.jour
+FROM hotels h, resorts re, bookings b
+WHERE re.noms LIKE 'Chamonix'
+      AND h.nomh LIKE '%Bon S��jour%'
+      AND h.ns = re.ns
+      AND h.ns = b.ns
+      AND h.nh = b.nh
+      AND b.ncl != 0
+GROUP BY b.jour
+HAVING count(*) = (
+SELECT max(count(*))
+FROM hotels h, resorts re, bookings b
+WHERE re.noms LIKE 'Chamonix'
+      AND h.nomh LIKE '%Bon S��jour%'
+      AND h.ns = re.ns
+      AND h.ns = b.ns
+      AND h.nh = b.nh
+      AND b.ncl != 0
+GROUP BY b.jour)
+;
 
-
-
+-- Q13 :
+SELECT h.nh, h.nomh, h.adrh, h.cath
+FROM Hotels h, Rooms r
+WHERE h.ns = r.ns
+      AND h.nh = r.nh
+MINUS
+(SELECT h.nh, h.nomh, h.adrh, h.cath
+FROM Hotels h, Rooms r
+WHERE h.ns = r.ns
+      AND h.nh = r.nh
+      AND r.prix >= 40
+);
