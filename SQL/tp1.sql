@@ -156,14 +156,44 @@ GROUP BY b.jour)
 ;
 
 -- Q13 :
-SELECT h.nh, h.nomh, h.adrh, h.cath
+SELECT DISTINCT h.nh, h.ns, h.nomh, h.adrh, h.cath
 FROM Hotels h, Rooms r
 WHERE h.ns = r.ns
       AND h.nh = r.nh
 MINUS
-(SELECT h.nh, h.nomh, h.adrh, h.cath
+(SELECT DISTINCT h.nh, h.ns, h.nomh, h.adrh, h.cath
 FROM Hotels h, Rooms r
 WHERE h.ns = r.ns
       AND h.nh = r.nh
       AND r.prix >= 40
 );
+
+-- Q14 :
+SELECT MIN(ro.prix) AS prix_min
+FROM Hotels h, Resorts re, Rooms ro
+WHERE h.cath = 3
+      AND re.types LIKE 'mer'
+      AND h.ns = re.ns
+      AND h.ns = ro.ns
+      AND h.nh = ro.nh;
+      
+      
+-- Q15 :
+-- R ÷ S = πA(R) − πA( ( πA(R) × S ) − R )
+
+
+-- Q16 :
+SELECT DISTINCT nomCl
+FROM guests g, Bookings b1, Bookings b2, Bookings b3
+WHERE g.NCl = b1.NCl
+      AND b1.NCl = b2.NCl
+      AND b2.NCl = b3.NCl -- meme Client
+      AND b1.NCH = b2.NCH
+      AND b2.NCH = b3.NCH -- meme chambre
+      AND b1.NH = b2.NH
+      AND b2.NH = b3.NH -- meme Hotel
+      AND b1.NS = b2.NS
+      AND b2.NS = b3.NS -- meme station
+      AND b1.jour = b2.jour + 1
+      AND b1.jour = b3.jour + 2
+;
