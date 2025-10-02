@@ -35,4 +35,12 @@ class Zoo {
         // alternative:
         // return "le zoo " + nom + "contient:" + animaux;
     }
+
+    public int getPrixTotalRegimes() {
+        int total = 0;
+        for (Animal a : animaux) {
+            total += a.getPrixRegime();
+        }
+        return total;
+    }
 }
