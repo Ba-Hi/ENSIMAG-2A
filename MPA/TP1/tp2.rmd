@@ -1,0 +1,33 @@
+---
+title: 'TP 2 :  Détection d’un changement ponctuel dans une suite binaire'
+author: "Hiba HANINI, Marwane HAJJY, Hiba FAHLI"
+date: "25/09/2025"
+output:
+  pdf_document: default
+  html_document: default
+subtitle: "Modèles probabilistes pour l'apprentissage - MPA"
+---
+
+##### Q1. Soit $c = 1$. Donner l’expression de la loi générative $p(y \mid c = 1, \theta_1, \theta_2)$
+
+##### Q2. Même question pour $c > 1$.
+
+##### Q3. On suppose que \( \theta_1 \) et \( \theta_2 \) sont connues. Déduire des questions précédentes que  
+
+\[
+\forall c = 2, \ldots, n, \quad
+\frac{p(c \mid y)}{p(c = 1 \mid y)} \;=\;
+\prod_{j=1}^{c-1}
+\frac{\theta_1^{y_j}(1 - \theta_1)^{1-y_j}}{\theta_2^{y_j}(1 - \theta_2)^{1-y_j}}.
+\]
+
+##### Vérifier que l’on peut calculer le rapport $p(c \mid y)/p(c = 1 \mid y)$ pour tout $c$ en effectuant de l’ordre de $n(n - 1)/2$ multiplications.
+
+##### Q4. Supposant \( \theta_1 \) et \( \theta_2 \) connues, proposer un algorithme permettant de calculer \( p(c \mid y) \) pour tout \( c = 1, \ldots, n \) avec une complexité en \( O(n) \).
+
+
+##### Q5. On suppose désormais que \( \theta_1 \) et \( \theta_2 \) sont inconnues. À partir de valeurs initiales arbitraires, proposer un algorithme itératif, de type **échantillonnage de Gibbs**, permettant de calculer  \( p(c \mid y) \) pour tout \( c = 1, \ldots, n \) en combinant : 
+**- la simulation de la loi \( p(c \mid y, \theta_1, \theta_2) \),  - et la simulation de valeurs des paramètres \( \theta_1 \) et \( \theta_2 \).**
+
+##### Q6. Tester la convergence de votre algorithme en examinant la sensibilité aux conditions initiales choisies arbitrairement.
+
