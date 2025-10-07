@@ -10,7 +10,21 @@ subtitle: "Modèles probabilistes pour l'apprentissage - MPA"
 
 ##### Q1. Soit $c = 1$. Donner l’expression de la loi générative $p(y \mid c = 1, \theta_1, \theta_2)$
 
+Comme les $y_i$ sont i.i.d : 
+
+\[
+\begin{aligned}
+p(y \mid c = 1, \theta_1, \theta_2) &= \prod_{i=1}^n \theta_2^{y_i} (1 - \theta_2)^{1 - y_i}
+\end{aligned}
+\]
+
 ##### Q2. Même question pour $c > 1$.
+
+\[
+\begin{aligned}
+p(y \mid c = 1, \theta_1, \theta_2) &= \prod_{i=1}^{c-1} \theta_1^{y_i} (1 - \theta_1)^{1 - y_i} \prod_{i=c}^{n} \theta_2^{y_i} (1 - \theta_2)^{1 - y_i} 
+\end{aligned}
+\]
 
 ##### Q3. On suppose que \( \theta_1 \) et \( \theta_2 \) sont connues. Déduire des questions précédentes que  
 
@@ -21,7 +35,37 @@ subtitle: "Modèles probabilistes pour l'apprentissage - MPA"
 \frac{\theta_1^{y_j}(1 - \theta_1)^{1-y_j}}{\theta_2^{y_j}(1 - \theta_2)^{1-y_j}}.
 \]
 
+
 ##### Vérifier que l’on peut calculer le rapport $p(c \mid y)/p(c = 1 \mid y)$ pour tout $c$ en effectuant de l’ordre de $n(n - 1)/2$ multiplications.
+
+\\
+
+On a d'après la formule de Bayes, $\theta_1$ et $\theta_2$ connues: 
+
+\[
+\begin{aligned}
+p(c \mid y) &= p(y \mid c) \cdot p(c)
+\end{aligned}
+\]
+
+Et de même :
+
+\[
+\begin{aligned}
+p(c = 1 \mid y) &= p(y \mid c = 1) \cdot p(c = 1)
+\end{aligned}
+\]
+
+Comme $p(c = 1) = p(c) = \frac{1}{n}$
+
+On obtient :
+
+\[
+\begin{aligned}
+\forall c = 2, \ldots, n, \quad
+\frac{p(c \mid y)}{p(c = 1 \mid y)} &= \frac{p(y \mid c)}{p(y \mid c = 1)} \\
+&= 
+\]
 
 ##### Q4. Supposant \( \theta_1 \) et \( \theta_2 \) connues, proposer un algorithme permettant de calculer \( p(c \mid y) \) pour tout \( c = 1, \ldots, n \) avec une complexité en \( O(n) \).
 
@@ -31,3 +75,4 @@ subtitle: "Modèles probabilistes pour l'apprentissage - MPA"
 
 ##### Q6. Tester la convergence de votre algorithme en examinant la sensibilité aux conditions initiales choisies arbitrairement.
 
+##### Q7. Analyser les jeux de donn´ees envoy´es en pi`ece jointe par l’enseignant. Décrire l’incertitude sur le(s) point(s) de changement pour ces jeux de données (localisation des points des changements et intervalles contenant chacun des points avec une probabilit´e sup´erieure à 50%).

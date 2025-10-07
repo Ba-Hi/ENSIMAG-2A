@@ -1,0 +1,176 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={TP 2 : Détection d'un changement ponctuel dans une suite binaire},
+  pdfauthor={Hiba HANINI, Marwane HAJJY, Hiba FAHLI},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{TP 2 : Détection d'un changement ponctuel dans une suite binaire}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Modèles probabilistes pour l'apprentissage - MPA}
+\author{Hiba HANINI, Marwane HAJJY, Hiba FAHLI}
+\date{25/09/2025}
+
+\begin{document}
+\maketitle
+
+\subparagraph{\texorpdfstring{Q1. Soit \(c = 1\). Donner l'expression de
+la loi générative
+\(p(y \mid c = 1, \theta_1, \theta_2)\)}{Q1. Soit c = 1. Donner l'expression de la loi générative p(y \textbackslash mid c = 1, \textbackslash theta\_1, \textbackslash theta\_2)}}\label{q1.-soit-c-1.-donner-lexpression-de-la-loi-guxe9nuxe9rative-py-mid-c-1-theta_1-theta_2}
+
+Comme les \(y_i\) sont i.i.d :
+
+\[
+\begin{aligned}
+p(y \mid c = 1, \theta_1, \theta_2) &= \prod_{i=1}^n \theta_2^{y_i} (1 - \theta_2)^{1 - y_i}
+\end{aligned}
+\]
+
+\subparagraph{\texorpdfstring{Q2. Même question pour
+\(c > 1\).}{Q2. Même question pour c \textgreater{} 1.}}\label{q2.-muxeame-question-pour-c-1.}
+
+\[
+\begin{aligned}
+p(y \mid c = 1, \theta_1, \theta_2) &= \prod_{i=1}^{c-1} \theta_1^{y_i} (1 - \theta_1)^{1 - y_i} \prod_{i=c}^{n} \theta_2^{y_i} (1 - \theta_2)^{1 - y_i} 
+\end{aligned}
+\]
+
+\subparagraph{\texorpdfstring{Q3. On suppose que \(\theta_1\) et
+\(\theta_2\) sont connues. Déduire des questions précédentes
+que}{Q3. On suppose que \textbackslash theta\_1 et \textbackslash theta\_2 sont connues. Déduire des questions précédentes que}}\label{q3.-on-suppose-que-theta_1-et-theta_2-sont-connues.-duxe9duire-des-questions-pruxe9cuxe9dentes-que}
+
+\[
+\forall c = 2, \ldots, n, \quad
+\frac{p(c \mid y)}{p(c = 1 \mid y)} \;=\;
+\prod_{j=1}^{c-1}
+\frac{\theta_1^{y_j}(1 - \theta_1)^{1-y_j}}{\theta_2^{y_j}(1 - \theta_2)^{1-y_j}}.
+\]
+
+\subparagraph{\texorpdfstring{Vérifier que l'on peut calculer le rapport
+\(p(c \mid y)/p(c = 1 \mid y)\) pour tout \(c\) en effectuant de l'ordre
+de \(n(n - 1)/2\)
+multiplications.}{Vérifier que l'on peut calculer le rapport p(c \textbackslash mid y)/p(c = 1 \textbackslash mid y) pour tout c en effectuant de l'ordre de n(n - 1)/2 multiplications.}}\label{vuxe9rifier-que-lon-peut-calculer-le-rapport-pc-mid-ypc-1-mid-y-pour-tout-c-en-effectuant-de-lordre-de-nn---12-multiplications.}
+
+\textbackslash{}
+
+On a d'après la formule de Bayes, \(\theta_1\) et \(\theta_2\) connues:
+
+\[
+\begin{aligned}
+p(c \mid y) &= p(y \mid c) \cdot p(c)
+\end{aligned}
+\]
+
+Et de même :
+
+\[
+\begin{aligned}
+p(c = 1 \mid y) &= p(y \mid c = 1) \cdot p(c = 1)
+\end{aligned}
+\]
+
+Comme \(p(c = 1) = p(c) = \frac{1}{n}\)
+
+On obtient :
+
+\[
+\begin{aligned}
+\forall c = 2, \ldots, n, \quad
+\frac{p(c \mid y)}{p(c = 1 \mid y)} &= \frac{p(y \mid c)}{p(y \mid c = 1)} \\
+&= 
+\]
+
+\subparagraph{\texorpdfstring{Q4. Supposant \(\theta_1\) et \(\theta_2\)
+connues, proposer un algorithme permettant de calculer \(p(c \mid y)\)
+pour tout \(c = 1, \ldots, n\) avec une complexité en
+\(O(n)\).}{Q4. Supposant \textbackslash theta\_1 et \textbackslash theta\_2 connues, proposer un algorithme permettant de calculer p(c \textbackslash mid y) pour tout c = 1, \textbackslash ldots, n avec une complexité en O(n).}}\label{q4.-supposant-theta_1-et-theta_2-connues-proposer-un-algorithme-permettant-de-calculer-pc-mid-y-pour-tout-c-1-ldots-n-avec-une-complexituxe9-en-on.}
+
+\subparagraph{\texorpdfstring{Q5. On suppose désormais que \(\theta_1\)
+et \(\theta_2\) sont inconnues. À partir de valeurs initiales
+arbitraires, proposer un algorithme itératif, de type
+\textbf{échantillonnage de Gibbs}, permettant de calculer
+\(p(c \mid y)\) pour tout \(c = 1, \ldots, n\) en combinant
+:}{Q5. On suppose désormais que \textbackslash theta\_1 et \textbackslash theta\_2 sont inconnues. À partir de valeurs initiales arbitraires, proposer un algorithme itératif, de type échantillonnage de Gibbs, permettant de calculer p(c \textbackslash mid y) pour tout c = 1, \textbackslash ldots, n en combinant :}}\label{q5.-on-suppose-duxe9sormais-que-theta_1-et-theta_2-sont-inconnues.-uxe0-partir-de-valeurs-initiales-arbitraires-proposer-un-algorithme-ituxe9ratif-de-type-uxe9chantillonnage-de-gibbs-permettant-de-calculer-pc-mid-y-pour-tout-c-1-ldots-n-en-combinant}
+
+\textbf{- la simulation de la loi \(p(c \mid y, \theta_1, \theta_2)\), -
+et la simulation de valeurs des paramètres \(\theta_1\) et
+\(\theta_2\).}
+
+\subparagraph{Q6. Tester la convergence de votre algorithme en examinant
+la sensibilité aux conditions initiales choisies
+arbitrairement.}\label{q6.-tester-la-convergence-de-votre-algorithme-en-examinant-la-sensibilituxe9-aux-conditions-initiales-choisies-arbitrairement.}
+
+\subparagraph{Q7. Analyser les jeux de donn´ees envoy´es en pi`ece
+jointe par l'enseignant. Décrire l'incertitude sur le(s) point(s) de
+changement pour ces jeux de données (localisation des points des
+changements et intervalles contenant chacun des points avec une
+probabilit´e sup´erieure à
+50\%).}\label{q7.-analyser-les-jeux-de-donnees-envoyes-en-piece-jointe-par-lenseignant.-duxe9crire-lincertitude-sur-les-points-de-changement-pour-ces-jeux-de-donnuxe9es-localisation-des-points-des-changements-et-intervalles-contenant-chacun-des-points-avec-une-probabilite-superieure-uxe0-50.}
+
+\end{document}
