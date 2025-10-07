@@ -38,8 +38,6 @@ p(y \mid c = 1, \theta_1, \theta_2) &= \prod_{i=1}^{c-1} \theta_1^{y_i} (1 - \th
 
 ##### Vérifier que l’on peut calculer le rapport $p(c \mid y)/p(c = 1 \mid y)$ pour tout $c$ en effectuant de l’ordre de $n(n - 1)/2$ multiplications.
 
-\\
-
 On a d'après la formule de Bayes, $\theta_1$ et $\theta_2$ connues: 
 
 \[
@@ -64,7 +62,9 @@ On obtient :
 \begin{aligned}
 \forall c = 2, \ldots, n, \quad
 \frac{p(c \mid y)}{p(c = 1 \mid y)} &= \frac{p(y \mid c)}{p(y \mid c = 1)} \\
-&= 
+&= \frac{\prod_{i=1}^{c-1} \theta_1^{y_i} (1 - \theta_1)^{1 - y_i} \prod_{i=c}^{n} \theta_2^{y_i} (1 - \theta_2)^{1 - y_i}}{\prod_{i=1}^n \theta_2^{y_i} (1 - \theta_2)^{1 - y_i}} \\
+&= \prod_{j=1}^{c-1} \frac{\theta_1^{y_j}(1 - \theta_1)^{1-y_j}}{\theta_2^{y_j}(1 - \theta_2)^{1-y_j}}
+\end{aligned}
 \]
 
 ##### Q4. Supposant \( \theta_1 \) et \( \theta_2 \) connues, proposer un algorithme permettant de calculer \( p(c \mid y) \) pour tout \( c = 1, \ldots, n \) avec une complexité en \( O(n) \).
