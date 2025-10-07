@@ -7,8 +7,8 @@ public class TestRegime {
         Animal canard = new Canard("Donald", 10, "bleues", regimeCanard);
 
         Zoo zoo = new Zoo("Mon Zoo");
-        zoo.ajouterAnimal(vache);
-        zoo.ajouterAnimal(canard);
+        zoo.ajouteAnimal(vache);
+        zoo.ajouteAnimal(canard);
 
         System.out.println(zoo);
         System.out.println("Prix total des régimes : " + zoo.getPrixTotalRegimes() + " euros");

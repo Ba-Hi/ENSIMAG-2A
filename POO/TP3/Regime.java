@@ -15,7 +15,4 @@ public class Regime {
         return prixAuKilo;
     }
 
-    
-
-    
 }

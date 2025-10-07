@@ -1,7 +1,7 @@
 public class Animal {
     private String nom;
     private int weight;
-    public Static Regime regime;
+    public static Regime regime;
 
     public Animal(String nom, int weight, Regime regime) {
         this.nom = nom;
