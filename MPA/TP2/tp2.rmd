@@ -8,71 +8,124 @@ output:
 subtitle: "Modèles probabilistes pour l'apprentissage - MPA"
 ---
 
-##### Q1. Soit $c = 1$. Donner l’expression de la loi générative $p(y \mid c = 1, \theta_1, \theta_2)$
+**Q1. Soit** $c = 1$. Donner l’expression de la loi générative $p(y \mid c = 1, \theta_1, \theta_2)$
 
-Comme les $y_i$ sont i.i.d : 
+Comme les $y_i$ sont i.i.d :
 
-\[
+$$
 \begin{aligned}
 p(y \mid c = 1, \theta_1, \theta_2) &= \prod_{i=1}^n \theta_2^{y_i} (1 - \theta_2)^{1 - y_i}
 \end{aligned}
-\]
+$$
 
-##### Q2. Même question pour $c > 1$.
+**Q2. Même question pour** $c > 1$.
 
-\[
+$$
 \begin{aligned}
 p(y \mid c = 1, \theta_1, \theta_2) &= \prod_{i=1}^{c-1} \theta_1^{y_i} (1 - \theta_1)^{1 - y_i} \prod_{i=c}^{n} \theta_2^{y_i} (1 - \theta_2)^{1 - y_i} 
 \end{aligned}
-\]
+$$
 
-##### Q3. On suppose que \( \theta_1 \) et \( \theta_2 \) sont connues. Déduire des questions précédentes que  
+**Q3. On suppose que** $\theta_1$ et $\theta_2$ sont connues. Déduire des questions précédentes que
 
-\[
+$$
 \forall c = 2, \ldots, n, \quad
 \frac{p(c \mid y)}{p(c = 1 \mid y)} \;=\;
 \prod_{j=1}^{c-1}
 \frac{\theta_1^{y_j}(1 - \theta_1)^{1-y_j}}{\theta_2^{y_j}(1 - \theta_2)^{1-y_j}}.
-\]
+$$
 
+**Vérifier que l’on peut calculer le rapport** $p(c \mid y)/p(c = 1 \mid y)$ pour tout $c$ en effectuant de l’ordre de $n(n - 1)/2$ multiplications.
 
-##### Vérifier que l’on peut calculer le rapport $p(c \mid y)/p(c = 1 \mid y)$ pour tout $c$ en effectuant de l’ordre de $n(n - 1)/2$ multiplications.
+On a d'après la formule de Bayes, $\theta_1$ et $\theta_2$ connues:
 
-On a d'après la formule de Bayes, $\theta_1$ et $\theta_2$ connues: 
-
-\[
+$$
 \begin{aligned}
 p(c \mid y) &= p(y \mid c) \cdot p(c)
 \end{aligned}
-\]
+$$
 
 Et de même :
 
-\[
+$$
 \begin{aligned}
 p(c = 1 \mid y) &= p(y \mid c = 1) \cdot p(c = 1)
 \end{aligned}
-\]
+$$
 
 Comme $p(c = 1) = p(c) = \frac{1}{n}$
 
 On obtient :
 
-\[
+$$
 \begin{aligned}
 \forall c = 2, \ldots, n, \quad
 \frac{p(c \mid y)}{p(c = 1 \mid y)} &= \frac{p(y \mid c)}{p(y \mid c = 1)} \\
 &= \frac{\prod_{i=1}^{c-1} \theta_1^{y_i} (1 - \theta_1)^{1 - y_i} \prod_{i=c}^{n} \theta_2^{y_i} (1 - \theta_2)^{1 - y_i}}{\prod_{i=1}^n \theta_2^{y_i} (1 - \theta_2)^{1 - y_i}} \\
 &= \prod_{j=1}^{c-1} \frac{\theta_1^{y_j}(1 - \theta_1)^{1-y_j}}{\theta_2^{y_j}(1 - \theta_2)^{1-y_j}}
 \end{aligned}
-\]
+$$
 
-##### Q4. Supposant \( \theta_1 \) et \( \theta_2 \) connues, proposer un algorithme permettant de calculer \( p(c \mid y) \) pour tout \( c = 1, \ldots, n \) avec une complexité en \( O(n) \).
+Si on calcule chaque rapport $\frac{p(c \mid y)}{p(c = 1 \mid y)}$ indépendamment en formant explicitement le produit pour chaque $c$, alors pour un $c$ donné, il faut effectuer $(c - 1)$ multiplications (en multipliant les $(c - 1)$ facteurs).
 
+Le nombre total de multiplications pour tous les $c = 2, \ldots, n$ est donc :
 
-##### Q5. On suppose désormais que \( \theta_1 \) et \( \theta_2 \) sont inconnues. À partir de valeurs initiales arbitraires, proposer un algorithme itératif, de type **échantillonnage de Gibbs**, permettant de calculer  \( p(c \mid y) \) pour tout \( c = 1, \ldots, n \) en combinant : 
-**- la simulation de la loi \( p(c \mid y, \theta_1, \theta_2) \),  - et la simulation de valeurs des paramètres \( \theta_1 \) et \( \theta_2 \).**
+$$
+\sum_{c=2}^{n} (c - 1)
+= 1 + 2 + \cdots + (n - 1)
+= \frac{n(n - 1)}{2}.
+$$
 
-##### Q6. Tester la convergence de votre algorithme en examinant la sensibilité aux conditions initiales choisies arbitrairement.
+D’où la vérification, on peut bien calculer tous les rapports en $\mathcal{O}\big(\tfrac{n(n - 1)}{2}\big)$ multiplications.
 
-##### Q7. Analyser les jeux de donn´ees envoy´es en pi`ece jointe par l’enseignant. Décrire l’incertitude sur le(s) point(s) de changement pour ces jeux de données (localisation des points des changements et intervalles contenant chacun des points avec une probabilit´e sup´erieure à 50%).
+**Q4. Supposant** $\theta_1$ et $\theta_2$ connues, proposer un algorithme permettant de calculer $p(c \mid y)$ pour tout $c = 1, \ldots, n$ avec une complexité en $O(n)$.
+
+n cherche à calculer $p(c \mid y)$ pour tout $c = 1, \ldots, n$ en supposant que les paramètres $\theta_1$ et $\theta_2$ sont connus.
+
+Soit : $$
+r_j = 
+\frac{\theta_1^{y_j}(1 - \theta_1)^{1 - y_j}}
+{\theta_2^{y_j}(1 - \theta_2)^{1 - y_j}}.
+$$
+
+On peut alors écrire une récurrence linéaire pour mettre à jour le rapport de manière itérative :
+
+$$
+R_1 = 1, \qquad
+R_c = R_{c-1} \times r_{c-1} \quad \text{pour } c = 2, \ldots, n.
+$$
+
+Ainsi, on obtient directement : $$
+\frac{p(c \mid y)}{p(c = 1 \mid y)} = R_c.
+$$
+
+Une fois tous les rapports $R_c$ calculés, on peut normaliser pour obtenir les probabilités $p(c \mid y)$ :
+
+$$
+p(c \mid y) = \frac{R_c}{\sum_{k=1}^{n} R_k}.
+$$
+
+------------------------------------------------------------------------
+
+### ✅ Algorithme en pseudo-code
+
+``` text
+Entrée : y = (y1, ..., yn), θ1, θ2
+Sortie : p(c | y) pour c = 1, ..., n
+
+1. Initialiser R[1] ← 1
+2. Pour j = 1 à n−1 :
+       r_j ← (θ1^y[j] * (1−θ1)^(1−y[j])) / (θ2^y[j] * (1−θ2)^(1−y[j]))
+       R[j+1] ← R[j] * r_j
+3. Normaliser :
+       somme ← Σ_{k=1}^{n} R[k]
+       Pour c = 1 à n :
+           p[c] ← R[c] / somme
+4. Retourner p
+```
+
+**Q5. On suppose désormais que** $\theta_1$ et $\theta_2$ sont inconnues. À partir de valeurs initiales arbitraires, proposer un algorithme itératif, de type échantillonnage de Gibbs, permettant de calculer $p(c \mid y)$ pour tout $c = 1, \ldots, n$ en combinant : - la simulation de la loi $p(c \mid y, \theta_1, \theta_2)$, - et la simulation de valeurs des paramètres $\theta_1$ et $\theta_2$.
+
+**Q6. Tester la convergence de votre algorithme en examinant la sensibilité aux conditions initiales choisies arbitrairement.**
+
+**Q7. Analyser les jeux de donn´ees envoy´es en pi\`ece jointe par l’enseignant. Décrire l’incertitude sur le(s) point(s) de changement pour ces jeux de données (localisation des points des changements et intervalles contenant chacun des points avec une probabilit´e sup´erieure à 50%).**
