@@ -45,7 +45,7 @@ On a d'après la formule de Bayes, $\theta_1$ et $\theta_2$ connues:
 
 $$
 \begin{aligned}
-p(c \mid y) &= p(y \mid c) \cdot p(c)
+p(c \mid y) &= p(y \mid c) \cdot \frac{p(c)}{p(y)}
 \end{aligned}
 $$
 
@@ -53,7 +53,7 @@ Et de même :
 
 $$
 \begin{aligned}
-p(c = 1 \mid y) &= p(y \mid c = 1) \cdot p(c = 1)
+p(c = 1 \mid y) &= p(y \mid c = 1) \cdot \frac{p(c = 1)}{p(y)}
 \end{aligned}
 $$
 
@@ -198,7 +198,7 @@ $$
 p( \theta_1 \mid y, c^{(t)}) \propto p(y \mid \theta_1, c^{(t)} ) \cdot p(\theta_1)
 \end{aligned}
 $$
-Prenons la loi a priori non informative Unif(0,1) = Beta(1,1) : $\theta_1 \sim \mathcal{Beta}(1, 1)$
+Prenons la loi a priori non informative Unif(0,1) = Beta(1,1) : $\theta_1 \sim \mathcal{\text{Beta}}(1, 1)$
 
 On a donc :
 $$
@@ -215,7 +215,7 @@ Ainsi :
 
 $$
 \boxed{
-\theta_1 \mid y, c^{(t)} \sim  \mathcal{Beta}(s_1 + 1, m_1 - s_1 + 1)
+\theta_1 \mid y, c^{(t)} \sim  \mathcal{\text{Beta}}(s_1 + 1, m_1 - s_1 + 1)
 }
 $$
 
@@ -224,7 +224,7 @@ Posons : $\sum_{c^{(t)}}^{n} y_i = s_2$ , $n - (c^{(t)} - 1) = m_2$, avec la loi
 
 $$
 \boxed{
-\theta_2 \mid y, c^{(t)} \sim  \mathcal{Beta}(s_2 + 1, m_2 - s_2 + 1)
+\theta_2 \mid y, c^{(t)} \sim  \mathcal{\text{Beta}}(s_2 + 1, m_2 - s_2 + 1)
 }
 $$
 \underline{Algorithme de Gibbs}
@@ -289,7 +289,7 @@ algorithme_gibbs <- function(
 
 ```{r}
 # Données observées :
-y <- c(1, 0, 1, 1, 0, 0, 1, 0, 0, 1)
+y <- c(0, 0, 0, 0, 1, 1, 1, 1, 1, 1)
 
 res1 <- algorithme_gibbs(y, n_iteration = 5000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.1, theta2_initial = 0.9)
