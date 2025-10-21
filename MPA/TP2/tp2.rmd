@@ -232,7 +232,7 @@ $$
 algorithme_gibbs <- function(
     y, n_iteration, n_elimine, c_initial, theta1_initial, theta2_initial) {
   n <- length(y)
-  
+  # 1. Initialisation de c, theta1, theta2
   c_val <- c_initial
   theta1 <- theta1_initial
   theta2 <- theta2_initial
@@ -243,7 +243,7 @@ algorithme_gibbs <- function(
   
   for (t in 1:n_iteration) {
     
-    # Tirage de c | y, theta1, theta2
+    # 2.1 Tirage de c | y, theta1, theta2
     R <- numeric(n)
     R[1] <- 1
     for (j in 1:(n-1)) {
@@ -255,7 +255,7 @@ algorithme_gibbs <- function(
     proba_c <- R / somme
     c_val <- sample(1:n, 1, prob = proba_c)
     
-    # 2. Tirage de theta1 et theta2 | y, c
+    # 2.2 Tirage de theta1 et theta2 | y, c
     s1 <- if (c_val > 1) sum(y[1:(c_val - 1)]) else 0
     m1 <- c_val - 1
     s2 <- sum(y[c_val:n])
@@ -311,23 +311,98 @@ barplot(res2$p_c, main = "p(c|y) - Chaîne 2", col = "red")
 
 **Q7. Analyser les jeux de données envoyés en pièce jointe par l’enseignant. Décrire l’incertitude sur le(s) point(s) de changement pour ces jeux de données (localisation des points des changements et intervalles contenant chacun des points avec une probabilité supérieure à 50%).**
 
+**Séquence 1** :
 ```{r}
 seq1 <- scan("TP2_sequence_1.txt")
-seq2 <- scan("TP2_sequence_2.txt")
 
 res1 <- algorithme_gibbs(seq1, n_iteration = 5000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
+
+barplot(res1$p_c, main = "Distribution de p(c|y) - Seq 1", col = "red", xlab = "position c", ylab = "p(c|y)" )
+```
+On remarque que la courbe est unimodale, on a donc un point de changement :
+
+```{r}
 point_estime <- which.max(as.numeric(res1$p_c))
+print(point_estime)
+```
+
+Pour le premier point de changement :
+
+```{r}
 IC <- quantile(res1$c_samples, probs = c(0.125, 0.875))
 freq_avant <- mean(seq1[1:(point_estime - 1)])
 freq_apres <- mean(seq1[point_estime:length(seq1)])
 
-print("Résultats pour seq1 :")
-print(point_estime)
+print("Résultats pour seq1, point c = 56 :")
 print(IC)
 print(freq_avant)
 print(freq_apres)
+```
+On vérifie quand-même que à droite et à gauche du point de changement, on ne trouve pas d'autres points :
+```{r}
+res1Gauche <- algorithme_gibbs(seq1[1:(point_estime-1)], n_iteration = 5000, n_elimine = 1000,
+                         c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
 
+barplot(res1Gauche$p_c, main = "Distribution de p(c|y) - Partie Gauche de la chaine avant le point estimé", col = "red", xlab = "position c", ylab = "p(c|y)" )
+```
+On remarque que la courbe n'est pas unimodale. On peut dire qu'il n'existe pas de point de changement avant point_estimé = 56
+
+De même pour la partie droite : 
+```{r}
+res1Droite <- algorithme_gibbs(seq1[(point_estime+1):length(seq1)], n_iteration = 5000, n_elimine = 1000,
+                         c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
+
+barplot(res1Droite$p_c, main = "Distribution de p(c|y) - Partie Droite de la chaine avant le point estimé", col = "red", xlab = "position c", ylab = "p(c|y)" )
+```
+On remarque que pour :
+```{r}
+point_estime_droite <- which.max(as.numeric(res1Droite$p_c))
+print(point_estime_droite)
+position_droite <- point_estime + point_estime_droite
+print(position_droite)
+```
+On a un mode en c = 54, donc un autre point de changement. Cela correspond à la position 56 (point ou on a découpé) + c_droite = 110
+
+```{r}
+IC_2 <- quantile(res1Droite$c_samples, probs = c(0.125, 0.875))
+seqDroite <- seq1
+freq_avant_2 <- mean(seq1[(point_estime + 1):(position_droite - 1)])
+freq_apres_2 <- mean(seq1[(position_droite + 1):length(seq1)])
+
+print("Résultats pour seq1, point c = 110 :")
+print(IC_2)
+print(freq_avant_2)
+print(freq_apres_2)
+```
+
+Conclusion : 
+les deux positions 56 et 110 sont deux points de changement
+
+```{r}
+# Tracé avec les deux points de changement
+
+plot(seq1, type = "h", main = "Seq1 avec les deux points de changement estimés",
+     xlab = "Position", ylab = "Valeur", col = "darkgray")
+
+# Premier point de changement
+abline(v = point_estime, col = "red", lwd = 2)
+abline(v = IC, col = "blue", lty = 2)
+
+# Deuxième point de changement
+abline(v = position_droite, col = "red", lwd = 2)
+abline(v = IC_2, col = "blue", lty = 2)
+
+# Légende
+legend("topright",
+       legend = c("Points estimés", "Intervalles de confiance 75%"),
+       col = c("red", "blue"), lwd = c(2, 1), lty = c(1, 2), bty = "n")
+
+```
+
+
+```{r}
+seq2 <- scan("TP2_sequence_2.txt")
 # Analyse pour seq2
 res2 <- algorithme_gibbs(seq2, n_iteration = 5000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
