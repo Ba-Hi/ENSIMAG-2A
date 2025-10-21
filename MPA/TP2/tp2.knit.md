@@ -130,7 +130,8 @@ $$
 
 \underline{Algorithme en R}
 
-``` {r}
+
+``` r
 calculer_p_c <- function(y, theta1, theta2) {
   n <- length(y)
   R <- numeric(n)
@@ -176,7 +177,18 @@ theta2 <- 0.4
 p <- calculer_p_c(y, theta1, theta2)
 p_sans_recurrence <- calculer_p_c_sans_recurrence(y, theta1, theta2)
 print(p)
+```
+
+```
+## [1] 0.13043478 0.26086957 0.08695652 0.17391304 0.34782609
+```
+
+``` r
 print(p_sans_recurrence)
+```
+
+```
+## [1] 0.13043478 0.26086957 0.08695652 0.17391304 0.34782609
 ```
 
 **Q5. On suppose désormais que $\theta_1$ et $\theta_2$ sont inconnues. À partir de valeurs initiales arbitraires, proposer un algorithme itératif, de type échantillonnage de Gibbs, permettant de calculer $p(c \mid y)$ pour tout $c = 1, \ldots, n$ en combinant : - la simulation de la loi $p(c \mid y, \theta_1, \theta_2)$, - et la simulation de valeurs des paramètres $\theta_1$ et $\theta_2$. **
@@ -228,7 +240,8 @@ $$
 }
 $$
 \underline{Algorithme de Gibbs}
-```{r}
+
+``` r
 algorithme_gibbs <- function(
     y, n_iteration, n_elimine, c_initial, theta1_initial, theta2_initial) {
   n <- length(y)
@@ -287,7 +300,8 @@ algorithme_gibbs <- function(
 
 **Q6. Tester la convergence de votre algorithme en examinant la sensibilité aux conditions initiales choisies arbitrairement.**
 
-```{r}
+
+``` r
 # Données observées :
 y <- c(0, 0, 0, 0, 1, 1, 1, 1, 1, 1)
 
@@ -309,10 +323,13 @@ barplot(res1$p_c, main = "p(c|y) - Chaîne 1", col = "blue")
 barplot(res2$p_c, main = "p(c|y) - Chaîne 2", col = "red")
 ```
 
+![](tp2_files/figure-latex/unnamed-chunk-3-1.pdf)<!-- --> 
+
 **Q7. Analyser les jeux de données envoyés en pièce jointe par l’enseignant. Décrire l’incertitude sur le(s) point(s) de changement pour ces jeux de données (localisation des points des changements et intervalles contenant chacun des points avec une probabilité supérieure à 50%).**
 
 **Séquence 1** :
-```{r}
+
+``` r
 seq1 <- scan("TP2_sequence_1.txt")
 res1 <- algorithme_gibbs(seq1, n_iteration = 5000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
@@ -320,28 +337,63 @@ res1 <- algorithme_gibbs(seq1, n_iteration = 5000, n_elimine = 1000,
 barplot(res1$p_c, main = "Distribution de p(c|y) - Seq 1", col = "red", 
         xlab = "position c", ylab = "p(c|y)" )
 ```
+
+![](tp2_files/figure-latex/unnamed-chunk-4-1.pdf)<!-- --> 
 \newline
 On remarque que la courbe est unimodale, on a donc un point de changement :
 
-```{r}
+
+``` r
 point_estime <- which.max(as.numeric(res1$p_c))
 print(point_estime)
 ```
 
+```
+## [1] 56
+```
+
 Pour le premier point de changement :
 
-```{r}
+
+``` r
 IC <- quantile(res1$c_samples, probs = c(0.125, 0.875))
 freq_avant <- mean(seq1[1:(point_estime - 1)])
 freq_apres <- mean(seq1[point_estime:length(seq1)])
 
 print("Résultats pour seq1, point c = 56 :")
+```
+
+```
+## [1] "Résultats pour seq1, point c = 56 :"
+```
+
+``` r
 print(IC)
+```
+
+```
+## 12.5% 87.5% 
+##    43    57
+```
+
+``` r
 print(freq_avant)
+```
+
+```
+## [1] 0.2545455
+```
+
+``` r
 print(freq_apres)
 ```
+
+```
+## [1] 0.6533333
+```
 On vérifie quand-même à droite et à gauche du point de changement si aucun point de changement n'existe :
-```{r}
+
+``` r
 res1Gauche <- algorithme_gibbs(seq1[1:(point_estime-1)], n_iteration = 5000,
                                n_elimine = 1000, 
                                c_initial = 1, theta1_initial = 0.2, 
@@ -351,11 +403,14 @@ barplot(res1Gauche$p_c, main = "Distribution de p(c|y) - Partie Gauche
         de la chaine avant le point estimé", 
         col = "red", xlab = "position c", ylab = "p(c|y)" )
 ```
+
+![](tp2_files/figure-latex/unnamed-chunk-7-1.pdf)<!-- --> 
 \newline
 On remarque que la courbe n'est pas unimodale. On peut dire qu'il n'existe pas de point de changement avant le premier estimé en $c = 56$.
 
 De même pour la partie droite : 
-```{r}
+
+``` r
 res1Droite <- algorithme_gibbs(seq1[(point_estime+1):length(seq1)], 
                                n_iteration = 5000, n_elimine = 1000, 
                                c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
@@ -364,31 +419,66 @@ barplot(res1Droite$p_c, main = "Distribution de p(c|y) -
         Partie Droite de la chaine avant le point estimé",
         col = "red", xlab = "position c", ylab = "p(c|y)" )
 ```
+
+![](tp2_files/figure-latex/unnamed-chunk-8-1.pdf)<!-- --> 
 \newline
 On remarque que pour :
-```{r}
+
+``` r
 point_estime_droite <- which.max(as.numeric(res1Droite$p_c))
 position_droite <- point_estime + point_estime_droite
 print(position_droite)
 ```
+
+```
+## [1] 110
+```
 On a un mode en $c_{droite} = 54$, donc un autre point de changement. Cela correspond à la position 56 (point ou on a découpé) + $c_{droite}$ = 110
 
-```{r}
+
+``` r
 IC_2 <- quantile(res1Droite$c_samples, probs = c(0.125, 0.875)) + point_estime
 freq_avant_2 <- mean(seq1[(point_estime + 1):(position_droite - 1)])
 freq_apres_2 <- mean(seq1[(position_droite + 1):length(seq1)])
 
 print("Résultats pour seq1, point c = 110 :")
+```
+
+```
+## [1] "Résultats pour seq1, point c = 110 :"
+```
+
+``` r
 print(IC_2)
+```
+
+```
+## 12.5% 87.5% 
+##    67   120
+```
+
+``` r
 print(freq_avant_2)
+```
+
+```
+## [1] 0.7358491
+```
+
+``` r
 print(freq_apres_2)
+```
+
+```
+## [1] 0.45
 ```
 
 Conclusion : 
 les deux positions 56 et 110 sont deux points de changement
 
 **Récapitulatif**
-```{r}
+
+``` r
 plot(seq1, type = "h", main = "Seq1 avec les deux points de changement estimés",
      xlab = "Position", ylab = "Valeur", col = "darkgray")
 
@@ -402,7 +492,11 @@ legend("topleft",
        legend = "Points estimés",
        col = "red", lwd = 2, lty = 1, bty = "n"
        )
+```
 
+![](tp2_files/figure-latex/unnamed-chunk-11-1.pdf)<!-- --> 
+
+``` r
 # Recap des résultats
 
 resultats <- data.frame(
@@ -414,11 +508,17 @@ resultats <- data.frame(
 )
 
 print(resultats)
+```
 
+```
+##   Point_de_changement IC_bas IC_haut Frequence_avant Frequence_apres
+## 1                  56     43      57       0.2545455       0.6533333
+## 2                 110     67     120       0.7358491       0.4500000
 ```
 
 **Séquence 2** :
-```{r}
+
+``` r
 seq2 <- scan("TP2_sequence_2.txt")
 res2 <- algorithme_gibbs(seq2, n_iteration = 5000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
@@ -426,28 +526,63 @@ res2 <- algorithme_gibbs(seq2, n_iteration = 5000, n_elimine = 1000,
 barplot(res2$p_c, main = "Distribution de p(c|y) - Seq 2", col = "red", 
         xlab = "position c", ylab = "p(c|y)" )
 ```
+
+![](tp2_files/figure-latex/unnamed-chunk-12-1.pdf)<!-- --> 
 \newline
 De même que la seq1, on remarque que la courbe est unimodale, on a donc un point de changement :
 
-```{r}
+
+``` r
 point_estime_seq2 <- which.max(as.numeric(res2$p_c))
 print(point_estime_seq2)
 ```
 
+```
+## [1] 315
+```
+
 Pour le premier point de changement :
 
-```{r}
+
+``` r
 IC_seq2 <- quantile(res2$c_samples, probs = c(0.125, 0.875))
 freq_avant_seq2 <- mean(seq2[1:(point_estime_seq2 - 1)])
 freq_apres_seq2 <- mean(seq2[point_estime_seq2:length(seq2)])
 
 print("Résultats pour seq1, point c = 56 :")
+```
+
+```
+## [1] "Résultats pour seq1, point c = 56 :"
+```
+
+``` r
 print(IC_seq2)
+```
+
+```
+## 12.5% 87.5% 
+##   311   318
+```
+
+``` r
 print(freq_avant_seq2)
+```
+
+```
+## [1] 0.3312102
+```
+
+``` r
 print(freq_apres_seq2)
 ```
+
+```
+## [1] 0.8705882
+```
 On vérifie quand-même à droite et à gauche du point de changement :
-```{r}
+
+``` r
 res2Gauche <- algorithme_gibbs(seq2[1:(point_estime_seq2-1)], 
                          n_iteration = 5000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
@@ -456,29 +591,64 @@ barplot(res2Gauche$p_c, main = "Distribution de p(c|y) -
         Partie Gauche de la chaine seq2 avant le point estimé",
         col = "red", xlab = "position c", ylab = "p(c|y)" )
 ```
+
+![](tp2_files/figure-latex/unnamed-chunk-15-1.pdf)<!-- --> 
 \newline
 On remarque que la courbe est encore unimodale.
 Le point : 
 
-```{r}
+
+``` r
 point_estime_gauche_seq2 <- which.max(as.numeric(res2Gauche$p_c))
 print(point_estime_gauche_seq2)
 ```
+
+```
+## [1] 49
+```
 est un point de changement. Avec
-```{r}
+
+``` r
 IC_2_seq2 <- quantile(res2Gauche$c_samples, probs = c(0.125, 0.875))
 freq_avant_2_seq2 <- mean(seq2[1:(point_estime_gauche_seq2 - 1)])
 freq_apres_2_seq2 <- mean(seq2[(point_estime_gauche_seq2 + 1):point_estime_seq2])
 
 print("Résultats pour seq2, point c = 49 :")
+```
+
+```
+## [1] "Résultats pour seq2, point c = 49 :"
+```
+
+``` r
 print(IC_2_seq2)
+```
+
+```
+## 12.5% 87.5% 
+##    34    50
+```
+
+``` r
 print(freq_avant_2_seq2)
+```
+
+```
+## [1] 0.1041667
+```
+
+``` r
 print(freq_apres_2_seq2)
+```
+
+```
+## [1] 0.3721805
 ```
 
 
 Pour la partie droite : 
-```{r}
+
+``` r
 res2Droite <- algorithme_gibbs(seq2[(point_estime_seq2+1):length(seq2)], 
                          n_iteration = 5000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
@@ -487,12 +657,15 @@ barplot(res2Droite$p_c, main = "Distribution de p(c|y) -
         Partie Droite de la chaine seq2 après le point estimé", 
         col = "red", xlab = "position c", ylab = "p(c|y)" )
 ```
+
+![](tp2_files/figure-latex/unnamed-chunk-18-1.pdf)<!-- --> 
 Pas de mode, donc pas de point de changement.
 
 On illustre les résultats pour la seq2 :
 
 
-```{r}
+
+``` r
 plot(seq2, type = "h", main = "Seq2 avec les deux points de changement estimés",
      xlab = "Position", ylab = "Valeur", col = "darkgray")
 
@@ -506,8 +679,11 @@ legend("topleft",
        legend = "Points estimés",
        col = "red", lwd = 2, lty = 1, bty = "n"
        )
+```
 
+![](tp2_files/figure-latex/unnamed-chunk-19-1.pdf)<!-- --> 
 
+``` r
 resultats_seq2 <- data.frame(
   Point_de_changement = c(point_estime_gauche_seq2, point_estime_seq2),
   IC_bas = c(IC_2_seq2[1], IC_seq2[1]),
@@ -517,7 +693,12 @@ resultats_seq2 <- data.frame(
 )
 
 print(resultats_seq2)
+```
 
+```
+##   Point_de_changement IC_bas IC_haut Frequence_avant Frequence_apres
+## 1                  49     34      50       0.1041667       0.3721805
+## 2                 315    311     318       0.3312102       0.8705882
 ```
 
 
