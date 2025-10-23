@@ -138,6 +138,21 @@ class UnaireSin extends ExpUnaire {
     }
 }
 
+class UnaireExponentiel extends ExpUnaire {
+    public UnaireExponentiel(ExpAbstraite e) {
+        super(e);
+    }
+
+    public String toStringInfixe() {
+        return "exp(" + operande.toStringInfixe() + ")";	// redondance
+    }
+
+    @Override
+    public double evaluer(Env env) {
+    	return Math.exp(operande.evaluer(env));             // redondance
+    }
+}
+
 
 //=========================================================================
 // Solution 2, avec attribut (affichage sur les binaires)
@@ -221,6 +236,22 @@ class BinairePlus extends ExpBinaire {
     }
 }
 
+class BinaireDiv extends ExpBinaire {
+    
+    private static String op = new String("+");
+
+    public BinaireDiv(ExpAbstraite g, ExpAbstraite d) {
+        super(g, d, "/");
+    }
+
+    @Override
+    double executeOperation(double evalG, double evalD) {
+        if (evalD == 0) {
+            throw new RuntimeException("Division par zéro");
+        }
+    	return evalG / evalD;
+    }
+}
 
 
 //=========================================================================
