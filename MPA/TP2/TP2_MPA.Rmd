@@ -1,0 +1,410 @@
+---
+title: 'TP2 : Detection dun changement ponctuel dans une suite binaire'
+author: "Lhichou, El-lahoua,El Habbouli"
+date: "2025-10-13"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 1. 
+
+- Soit $c=1$. L'expression de la loi générative $p(y|c=1, \theta_1, \theta_2)$ est donnée par:
+
+$$
+p(y|c=1, \theta_1, \theta_2)=p(y_1y_2...y_n|c=1, \theta_1, \theta_2)
+$$
+
+- Comme les $y_i$ sont indépendants conditionnellement à $\theta=(c, \theta_1, \theta_2)$, on a :
+
+$$
+\begin{align}
+p(y|c=1, \theta_1, \theta_2) &= \prod_{i=1}^n p(y_i|c=1, \theta_1, \theta2) \\
+     &= \prod_{i=1}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i} \\
+     &= \theta_2^{\sum_{i=1}^n y_i}.(1-\theta_2)^{n-\sum_{i=1}^n y_i}
+\end{align}
+$$
+
+### 2.
+
+- Soit $c>1$. L'expression de la loi générative $p(y|c, \theta_1, \theta_2)$ est donnée par:
+
+$$
+\begin{align}
+p(y|c=1, \theta_1, \theta_2)&=p(y_1y_2...y_n|c=1, \theta_1, \theta_2) \\
+     &= \prod_{i=1}^n p(y_i|c, \theta_1, \theta2) \\
+     &= \prod_{i=1}^{c-1} \theta_1^{y_i}.(1-\theta_1)^{1-y_i} . \prod_{i=c}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i}\\
+     &= \theta_1^{\sum_{i=1}^{c-1} y_i}.(1-\theta_1)^{c-1-\sum_{i=1}^{c-1} y_i} . \theta_2^{\sum_{i=c}^n y_i}.(1-\theta_2)^{n-c+1-\sum_{i=c}^n y_i}
+\end{align}
+$$
+
+### 3.
+
+- On suppose $\theta_1$ et $\theta_2$ connues, on a $\forall  c = 2, ..., n$ : 
+$$
+\begin{align}
+\frac{p(c|y)}{p(c=1|y)} &= \frac{\prod_{i=1}^{c-1} \theta_1^{y_i}.(1-\theta_1)^{1-y_i} . \prod_{i=c}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i}}{\prod_{i=1}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i}} \\
+                        &= \frac{\prod_{i=1}^{c-1} \theta_1^{y_i}.(1-\theta_1)^{1-y_i}}{\prod_{i=1}^{c-1} \theta_2^{y_i}.(1-\theta_2)^{1-y_i}} \\
+                        &= \prod_{i=1}^{c-1} \frac{\theta_1^{y_i}.(1-\theta_1)^{1-y_i}}{\theta_2^{y_i}.(1-\theta_2)^{1-y_i}}
+\end{align}
+$$
+- Pour $c = 2, ...,n$ le rapport $\frac{p(c|y)}{p(c=1|y)}$ nécessite l'ordre de $c-1$ multiplications (pour $c = 1$ aucune multiplication n'est nécessaire) d'où le calcule du rapport $\frac{p(c|y)}{p(c=1|y)}$ pour tout $c$ se fait en effectuant l'ordre de $\sum_{c=1}^n c = \frac{n.(n-1)}2$ multiplications.
+
+
+### 4.
+
+- On note $R_c = \frac{p(c|y)}{p(c=1|y)}$ et $S = \sum_{c=1}^n R_c$
+
+- On a $\forall c>1$ : $R_c = R_{c-1}.\frac{\theta_1^{y_{c-1}}.(1-\theta_1)^{1-y_{c-1}}}{\theta_2^{y_{c-1}}.(1-\theta_2)^{1-y_{c-1}}}$ soit $3$ multiplications de plus pour chaque itération.
+
+```text
+Algorithm 1: Calcule de p(c | y)
+---------------------------------------------------
+
+Initialisation :
+    R₁ = 1, S = 1
+
+Pour c = 2 à n :
+    1. calculer Rc
+    2. S += Rc
+
+Pour c = 1 à n :
+    p(c|n) = Rc/S
+
+Sortie :
+    p(c|y) pour tout c = 1, ..., n
+```
+
+- Chaque itération nécessite un $O(1)$ de multiplications, d'où l'algorithme calcule les $p(c|y)$ $\forall c=1,...,n$ en $O(n)$.
+
+### 5.
+
+- Pour tester la validiter de l'algorithme de Gibbs on peut calculer la valeur theorique de la probabilité de $c|y$ :
+
+- On a :
+$$
+\begin{align}
+p(c|y) &= \int_0^1\int_0^1p(c,\theta_1, \theta_2|y)d\theta_1d\theta_2
+\end{align}
+$$
+avec :
+$$
+\begin{align}
+p(c,\theta_1, \theta_2|y) &= p(y|c,\theta_1, \theta_2).\frac{p(\theta)}{p(y)}\\
+                  &\propto p(y|c,\theta_1, \theta_2).\frac1n \\
+                  &\propto \theta_1^{\sum_{i=1}^{c-1} y_i}.(1-\theta_1)^{c-1-\sum_{i=1}^{c-1} y_i} . \theta_2^{\sum_{i=c}^n y_i}.(1-\theta_2)^{n-c+1-\sum_{i=c}^n y_i} \\
+\end{align}
+$$
+- On note $s_1 = \sum_{i=1}^{c-1} y_i$, $n_1 = c-1$, $s_2 = \sum_{i=c}^n y_i$ et $n_2 = n - c +1$ et $A(y)$ le coefficient de proportionalité. Alors on a :
+$$
+\begin{align}
+p(c|y) &= \int_0^1\int_0^1A(y).\theta_1^{s_1}.(1-\theta_1)^{n_1 - s_1} . \theta_2^{s_2}.(1-\theta_2)^{n_2 - s_2}d\theta_1d\theta_2 \\
+       &= A(y).\int_0^1 \theta_1^{s_1}.(1-\theta_1)^{n_1 - s_1}d\theta_1\int_0^1\theta_2^{s_2}.(1-\theta_2)^{n_2 - s_2}d\theta_2 \\
+       &= A(y).B(s_1+1, n_1 - s_1 + 1).B(s_2 + 1, n_2 - s_2 + 1)
+\end{align}
+$$
+- On se base pour l'algorithm de Gibbs sur la formule:
+
+$$
+\begin{align}
+p(c|y) &= \int_0^1\int_0^1p(c|\theta_1, \theta_2, y)p(\theta_1, \theta_2|y)d\theta_1d\theta_2
+\end{align}
+$$
+- On remarque bien que les $\theta_1|y$ et $\theta_2|y$ ne sont pas indépendants.
+
+- On approche donc $p(c|y)$ par la loi de $p(c|\theta_1, \theta_2, y)$ calculée auparavant pour des valeurs "mises à jour" de $\theta_1$ et $\theta_2$.
+
+
+```{r}
+# --------------------------------------------------------
+# Algorithme de Gibbs.
+# --------------------------------------------------------
+GibbsAlgo <- function(y, n_iter, c_current){
+  # initialisation
+  n <- length(y)
+  c_samples <- numeric(n_iter)
+  
+  # Gibbs algo
+  for (i in 1:n_iter) {
+    # Sample theta|c, y
+    s_1 <- sum(y[1:(c_current - 1)])
+    s_2 <- sum(y[c_current:n])
+    n_1 <- c_current - 1
+    n_2 <- n - c_current + 1
+    
+    theta_1 <- rbeta(1, s_1 + 1, n_1 - s_1 + 1)
+    theta_2 <- rbeta(1, s_2 + 1, n_2 - s_2 + 1)
+    
+    # log-proba for all c
+    log_probs <- numeric(n)
+    for (c in 1:n) {
+      s_1 <- if (c == 1) 0 else sum(y[1:(c - 1)])
+      s_2 <- sum(y[c:n])
+      n_1 <- c - 1
+      n_2 <- n - c + 1
+      log_probs[c] <- s_1 * log(theta_1) + (n_1 - s_1) * log(1 - theta_1) +
+        s_2 * log(theta_2) + (n_2 - s_2) * log(1 - theta_2)
+    }
+    
+    # Normalization
+    probs <- exp(log_probs - max(log_probs))
+    probs <- probs / sum(probs)
+    
+    # new c
+    c_current <- sample(1:n, 1, prob = probs)
+    c_samples[i] <- c_current
+  }
+  return(c_samples)
+}
+
+# Valeurs pour tester
+
+y <- c(0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1)
+n <- length(y)
+n_iter <- 5000
+burn_in <- 1000
+
+
+
+# Choisir un c_init aléatoire
+c_init <- sample(2:n, 1)
+
+c_samples <- GibbsAlgo(y, n_iter, c_init)
+
+# Burn-in
+c_samples <- c_samples[(burn_in + 1):n_iter]
+
+
+
+counts <- table(c_samples)
+p_gibbs <- numeric(n)
+p_gibbs[as.numeric(names(counts))] <- counts / sum(counts)
+
+# --------------------------------------------------------
+# Valeure "exacte" théorique.
+# --------------------------------------------------------
+
+c_true <- numeric(n)
+for (c in 1:n) {
+  s_1 <- if (c == 1) 0 else sum(y[1:(c - 1)])
+  s_2 <- sum(y[c:n])
+  n_1 <- c - 1
+  n_2 <- n - c + 1
+  c_true[c] <- beta(s_1 + 1, n_1 - s_1 + 1) * beta(s_2 + 1, n_2 - s_2 + 1)
+}
+c_true <- c_true / sum(c_true)
+
+# --------------------------------------------------------
+# Visualization & comparaison
+# --------------------------------------------------------
+
+c_values <- 1:n
+par(mfrow = c(1, 2))
+
+# Plot 1: valeures estimées par Gibbs
+barplot(
+  p_gibbs,
+  names.arg = c_values,
+  col = "steelblue",
+  main = "Gibbs Estimate of p(c|y)",
+  xlab = "c", ylab = "Probability"
+)
+
+# Plot 2: valeures théoriques
+barplot(
+  c_true,
+  names.arg = c_values,
+  col = "darkorange",
+  main = "proba théorique p(c|y)",
+  xlab = "c",
+  ylab = "Probability",
+  border = NA
+)
+
+par(mfrow = c(1, 1))
+```
+
+### 6.
+
+- On teste la convergence de l'algorithme :
+
+```{r}
+n_runs <- 7 # nombres de valeurs de c aléatoires
+colors <- rainbow(n_runs)
+
+#
+
+max_prob <- list()
+max_c    <- list()
+
+for (run in 1:n_runs){
+  c_init <- sample(1:n, 1)
+  c_samples <- GibbsAlgo(y, n_iter, c_init)
+  c_samples <- c_samples[(burn_in+1):n_iter]
+  
+  counts <- numeric(n)
+  max_probs <- numeric(length(c_samples))
+  
+  for(i in 1:length(c_samples)){
+    counts[c_samples[i]] <- counts[c_samples[i]] + 1
+    max_probs[i] <- max(counts / i)
+  }
+  max_prob[[run]] <- max_probs
+}
+
+## Plot des max_probas pour chaque valeur c_init
+
+plot(max_prob[[1]], type='l', lty=1, col=colors[1],
+     xlab='Iteration (avec burn-in)', ylab='Max cumu proba',
+     main="Convergence de l'algorithme Gibbs (max seulement)")
+
+for(run in 2:n_runs){
+  lines(max_prob[[run]], col=colors[run], lty=1)
+}
+
+legend("bottomright", legend=paste("Run", 1:n_runs), col=colors, lty=1)
+
+```
+
+
+- On a donc convergence vers une même probabilité pour des valeurs initiales différentes de $c$  (on plot ici le max seulement pour la visibilité)
+
+### 7.
+
+Analyser les jeux de données envoyés en pièce jointe par l’enseignant. Décrire l’incertitude sur le(s) point(s) de changement pour ces jeux de données (localisation des points des changements et intervalles contenant chacun des points avec une probabilité supérieure à 50%).**
+
+**Séquence 1** :
+```{r}
+# --------------------------------------------------------
+# Chargement des données
+# --------------------------------------------------------
+y1 <- scan("TP2_sequence_1.txt")
+y2 <- scan("TP2_sequence_2.txt")
+
+n_iter <- 5000
+burn_in <- 1000
+
+compute_probs <- function(y, n_iter, burn_in) {
+  n <- length(y)
+  c_init <- sample(2:n, 1)
+  c_samples <- GibbsAlgo(y, n_iter, c_init)
+  c_samples <- c_samples[(burn_in + 1):n_iter]
+
+  counts <- table(c_samples)
+  p_gibbs <- numeric(n)
+  p_gibbs[as.numeric(names(counts))] <- counts / sum(counts)
+
+  c_true <- numeric(n)
+  for (c in 1:n) {
+    s_1 <- if (c == 1) 0 else sum(y[1:(c - 1)])
+    s_2 <- sum(y[c:n])
+    n_1 <- c - 1
+    n_2 <- n - c + 1
+    c_true[c] <- beta(s_1 + 1, n_1 - s_1 + 1) * beta(s_2 + 1, n_2 - s_2 + 1)
+  }
+  c_true <- c_true / sum(c_true)
+
+  list(p_gibbs = p_gibbs, c_true = c_true)
+}
+
+res1 <- compute_probs(y1, n_iter, burn_in)
+res2 <- compute_probs(y2, n_iter, burn_in)
+
+par(mfrow = c(2, 2))
+
+barplot(
+  res1$p_gibbs,
+  col = "skyblue",
+  main = "Gibbs p(c|y1)",
+  xlab = "c",
+  ylab = "Probability"
+)
+
+barplot(
+  res1$c_true,
+  col = "darkorange",
+  main = "Exact p(c|y1)",
+  xlab = "c",
+  ylab = "Probability"
+)
+
+# Ligne 2 : y2
+barplot(
+  res2$p_gibbs,
+  col = "skyblue",
+  main = "Gibbs Estimate",
+  xlab = "c",
+  ylab = "Probability"
+)
+
+barplot(
+  res2$c_true,
+  col = "darkorange",
+  main = "Exact p(c|y2)",
+  xlab = "c",
+  ylab = "Probability"
+)
+
+par(mfrow = c(1, 1))  # reset layout
+
+```
+
+- La courbe est unimodale, on a donc un point de changement :
+
+```{r}
+# --------------------------------------------------------
+# TP2 – Détection de points de changement (MPA)
+# --------------------------------------------------------
+
+# --- Fonctions utilitaires ---
+get_change_point_summary <- function(y, n_iter = 5000, burn_in = 1000) {
+  n <- length(y)
+  
+  # effectuer un sampling Gibbs
+
+  c_init <- sample(1:n, 1)
+  c_samples <- GibbsAlgo(y, n_iter, c_init)
+  c_samples <- c_samples[(burn_in + 1):n_iter]
+  
+  # 
+  c_est <- as.integer(names(sort(table(c_samples), decreasing = TRUE))[1])
+  ci <- quantile(c_samples, probs = c(0.125, 0.875))  # interval de confience de 75%
+  
+  # frequences avant et après le point de changement
+  f_before <- mean(y[1:(c_est - 1)])
+  f_after  <- mean(y[c_est:n])
+  
+  data.frame(
+    "No" = 1,
+    "Point estimé" = c_est,
+    "Borne inf. 75%" = round(ci[1]),
+    "Borne sup. 75%" = round(ci[2]),
+    "Fréq. avant" = round(f_before, 3),
+    "Fréq. après" = round(f_after, 3)
+  )
+}
+
+# --------------------------------------------------------
+# Chargement des suites 
+# --------------------------------------------------------
+y1 <- scan("TP2_sequence_1.txt")
+y2 <- scan("TP2_sequence_2.txt")
+
+res1 <- get_change_point_summary(y1)
+res2 <- get_change_point_summary(y2)
+
+# --------------------------------------------------------
+# Résultats finaux
+# --------------------------------------------------------
+
+cat("\n--- Résultats pour TP2_sequence_1 ---\n")
+print(res1)
+
+cat("\n--- Résultats pour TP2_sequence_2 ---\n")
+print(res2)
+
+```

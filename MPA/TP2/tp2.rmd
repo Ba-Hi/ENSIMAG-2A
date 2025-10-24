@@ -288,13 +288,12 @@ algorithme_gibbs <- function(
 **Q6. Tester la convergence de votre algorithme en examinant la sensibilité aux conditions initiales choisies arbitrairement.**
 
 ```{r}
-# Données observées :
 y <- c(0, 0, 0, 0, 1, 1, 1, 1, 1, 1)
 
-res1 <- algorithme_gibbs(y, n_iteration = 5000, n_elimine = 1000,
+res1 <- algorithme_gibbs(y, n_iteration = 10000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.1, theta2_initial = 0.9)
 
-res2 <- algorithme_gibbs(y, n_iteration = 5000, n_elimine = 1000,
+res2 <- algorithme_gibbs(y, n_iteration = 10000, n_elimine = 1000,
                          c_initial = 8, theta1_initial = 0.9, theta2_initial = 0.1)
 
 par(mfrow = c(2, 2))
@@ -305,8 +304,10 @@ lines(res2$theta1_samples, col = "red")
 plot(res1$theta2_samples, type = "l", col = "blue", main = expression(theta[2]))
 lines(res2$theta2_samples, col = "red")
 
-barplot(res1$p_c, main = "p(c|y) - Chaîne 1", col = "blue")
-barplot(res2$p_c, main = "p(c|y) - Chaîne 2", col = "red")
+barplot(res1$p_c, main = "p(c|y)
+        avec c = 1, theta1 = 0.1, theta2 = 0.9", col = "blue")
+barplot(res2$p_c, main = "p(c|y)
+        avec c = 8, theta1 = 0.9, theta2 = 0.1", col = "red")
 ```
 
 **Q7. Analyser les jeux de données envoyés en pièce jointe par l’enseignant. Décrire l’incertitude sur le(s) point(s) de changement pour ces jeux de données (localisation des points des changements et intervalles contenant chacun des points avec une probabilité supérieure à 50%).**
@@ -314,7 +315,7 @@ barplot(res2$p_c, main = "p(c|y) - Chaîne 2", col = "red")
 **Séquence 1** :
 ```{r}
 seq1 <- scan("TP2_sequence_1.txt")
-res1 <- algorithme_gibbs(seq1, n_iteration = 5000, n_elimine = 1000,
+res1 <- algorithme_gibbs(seq1, n_iteration = 10000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
 
 barplot(res1$p_c, main = "Distribution de p(c|y) - Seq 1", col = "red", 
@@ -342,7 +343,7 @@ print(freq_apres)
 ```
 On vérifie quand-même à droite et à gauche du point de changement si aucun point de changement n'existe :
 ```{r}
-res1Gauche <- algorithme_gibbs(seq1[1:(point_estime-1)], n_iteration = 5000,
+res1Gauche <- algorithme_gibbs(seq1[1:(point_estime-1)], n_iteration = 10000,
                                n_elimine = 1000, 
                                c_initial = 1, theta1_initial = 0.2, 
                                theta2_initial = 0.8)
@@ -357,7 +358,7 @@ On remarque que la courbe n'est pas unimodale. On peut dire qu'il n'existe pas d
 De même pour la partie droite : 
 ```{r}
 res1Droite <- algorithme_gibbs(seq1[(point_estime+1):length(seq1)], 
-                               n_iteration = 5000, n_elimine = 1000, 
+                               n_iteration = 10000, n_elimine = 1000, 
                                c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
 
 barplot(res1Droite$p_c, main = "Distribution de p(c|y) - 
@@ -420,7 +421,7 @@ print(resultats)
 **Séquence 2** :
 ```{r}
 seq2 <- scan("TP2_sequence_2.txt")
-res2 <- algorithme_gibbs(seq2, n_iteration = 5000, n_elimine = 1000,
+res2 <- algorithme_gibbs(seq2, n_iteration = 10000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
 
 barplot(res2$p_c, main = "Distribution de p(c|y) - Seq 2", col = "red", 
@@ -449,7 +450,7 @@ print(freq_apres_seq2)
 On vérifie quand-même à droite et à gauche du point de changement :
 ```{r}
 res2Gauche <- algorithme_gibbs(seq2[1:(point_estime_seq2-1)], 
-                         n_iteration = 5000, n_elimine = 1000,
+                         n_iteration = 10000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
 
 barplot(res2Gauche$p_c, main = "Distribution de p(c|y) - 
@@ -480,7 +481,7 @@ print(freq_apres_2_seq2)
 Pour la partie droite : 
 ```{r}
 res2Droite <- algorithme_gibbs(seq2[(point_estime_seq2+1):length(seq2)], 
-                         n_iteration = 5000, n_elimine = 1000,
+                         n_iteration = 10000, n_elimine = 1000,
                          c_initial = 1, theta1_initial = 0.2, theta2_initial = 0.8)
 
 barplot(res2Droite$p_c, main = "Distribution de p(c|y) - 
@@ -519,5 +520,51 @@ resultats_seq2 <- data.frame(
 print(resultats_seq2)
 
 ```
+Pour calculer les corrélations entre les paramètres pour seq1 et seq2 :
+
+```{r}
+# --- Corrélation entre les paramètres pour la Séquence 1 ---
+par(mfrow = c(1, 3))
+plot(res1$theta1_samples, res1$theta2_samples, col = "red",
+     main = expression(paste("Corrélation ", theta[1], " - ", theta[2], " (Seq1)")),
+     xlab = expression(theta[1]), ylab = expression(theta[2]),
+     pch = 16, cex = 0.6)
+
+plot(res1$theta1_samples, res1$c_samples, col = "blue",
+     main = expression(paste("Corrélation ", theta[1], " - c (Seq1)")),
+     xlab = expression(theta[1]), ylab = "c",
+     pch = 16, cex = 0.6)
+
+plot(res1$theta2_samples, res1$c_samples, col = "darkgreen",
+     main = expression(paste("Corrélation ", theta[2], " - c (Seq1)")),
+     xlab = expression(theta[2]), ylab = "c",
+     pch = 16, cex = 0.6)
+
+# --- Corrélation entre les paramètres pour la Séquence 2 ---
+par(mfrow = c(1, 3))
+plot(res2$theta1_samples, res2$theta2_samples, col = "red",
+     main = expression(paste("Corrélation ", theta[1], " - ", theta[2], " (Seq2)")),
+     xlab = expression(theta[1]), ylab = expression(theta[2]),
+     pch = 16, cex = 0.6)
+
+plot(res2$theta1_samples, res2$c_samples, col = "blue",
+     main = expression(paste("Corrélation ", theta[1], " - c (Seq2)")),
+     xlab = expression(theta[1]), ylab = "c",
+     pch = 16, cex = 0.6)
+
+plot(res2$theta2_samples, res2$c_samples, col = "darkgreen",
+     main = expression(paste("Corrélation ", theta[2], " - c (Seq2)")),
+     xlab = expression(theta[2]), ylab = "c",
+     pch = 16, cex = 0.6)
+```
+1. Corrélation $\theta_1$ - $\theta_2$ :
+Le nuage de points (en rouge) montre une corrélation faible 
+Cela est cohérent avec le modèle :
+$\theta_1$ représente la probabilité avant le point de changement,
+$\theta_2$ celle après.
+
+Si la proportion avant augmente, celle après doit logiquement baisser.
+Le nuage montre qu'il n'a pas de dépendance forte : bonne exploration conjointe de l’espace de paramètres. Bon signe pour la convergence.
+
 
 

@@ -1,0 +1,628 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={TP2 : Detection dun changement ponctuel dans une suite binaire},
+  pdfauthor={Lhichou, El-lahoua,El Habbouli},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{TP2 : Detection dun changement ponctuel dans une suite binaire}
+\author{Lhichou, El-lahoua,El Habbouli}
+\date{2025-10-13}
+
+\begin{document}
+\maketitle
+
+\subsubsection{1.}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  Soit \(c=1\). L'expression de la loi générative
+  \(p(y|c=1, \theta_1, \theta_2)\) est donnée par:
+\end{itemize}
+
+\[
+p(y|c=1, \theta_1, \theta_2)=p(y_1y_2...y_n|c=1, \theta_1, \theta_2)
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Comme les \(y_i\) sont indépendants conditionnellement à
+  \(\theta=(c, \theta_1, \theta_2)\), on a :
+\end{itemize}
+
+\[
+\begin{align}
+p(y|c=1, \theta_1, \theta_2) &= \prod_{i=1}^n p(y_i|c=1, \theta_1, \theta2) \\
+     &= \prod_{i=1}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i} \\
+     &= \theta_2^{\sum_{i=1}^n y_i}.(1-\theta_2)^{n-\sum_{i=1}^n y_i}
+\end{align}
+\]
+
+\subsubsection{2.}\label{section-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Soit \(c>1\). L'expression de la loi générative
+  \(p(y|c, \theta_1, \theta_2)\) est donnée par:
+\end{itemize}
+
+\[
+\begin{align}
+p(y|c=1, \theta_1, \theta_2)&=p(y_1y_2...y_n|c=1, \theta_1, \theta_2) \\
+     &= \prod_{i=1}^n p(y_i|c, \theta_1, \theta2) \\
+     &= \prod_{i=1}^{c-1} \theta_1^{y_i}.(1-\theta_1)^{1-y_i} . \prod_{i=c}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i}\\
+     &= \theta_1^{\sum_{i=1}^{c-1} y_i}.(1-\theta_1)^{c-1-\sum_{i=1}^{c-1} y_i} . \theta_2^{\sum_{i=c}^n y_i}.(1-\theta_2)^{n-c+1-\sum_{i=c}^n y_i}
+\end{align}
+\]
+
+\subsubsection{3.}\label{section-2}
+
+\begin{itemize}
+\tightlist
+\item
+  On suppose \(\theta_1\) et \(\theta_2\) connues, on a
+  \(\forall  c = 2, ..., n\) : \[
+  \begin{align}
+  \frac{p(c|y)}{p(c=1|y)} &= \frac{\prod_{i=1}^{c-1} \theta_1^{y_i}.(1-\theta_1)^{1-y_i} . \prod_{i=c}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i}}{\prod_{i=1}^n \theta_2^{y_i}.(1-\theta_2)^{1-y_i}} \\
+                        &= \frac{\prod_{i=1}^{c-1} \theta_1^{y_i}.(1-\theta_1)^{1-y_i}}{\prod_{i=1}^{c-1} \theta_2^{y_i}.(1-\theta_2)^{1-y_i}} \\
+                        &= \prod_{i=1}^{c-1} \frac{\theta_1^{y_i}.(1-\theta_1)^{1-y_i}}{\theta_2^{y_i}.(1-\theta_2)^{1-y_i}}
+  \end{align}
+  \]
+\item
+  Pour \(c = 2, ...,n\) le rapport \(\frac{p(c|y)}{p(c=1|y)}\) nécessite
+  l'ordre de \(c-1\) multiplications (pour \(c = 1\) aucune
+  multiplication n'est nécessaire) d'où le calcule du rapport
+  \(\frac{p(c|y)}{p(c=1|y)}\) pour tout \(c\) se fait en effectuant
+  l'ordre de \(\sum_{c=1}^n c = \frac{n.(n-1)}2\) multiplications.
+\end{itemize}
+
+\subsubsection{4.}\label{section-3}
+
+\begin{itemize}
+\item
+  On note \(R_c = \frac{p(c|y)}{p(c=1|y)}\) et \(S = \sum_{c=1}^n R_c\)
+\item
+  On a \(\forall c>1\) :
+  \(R_c = R_{c-1}.\frac{\theta_1^{y_{c-1}}.(1-\theta_1)^{1-y_{c-1}}}{\theta_2^{y_{c-1}}.(1-\theta_2)^{1-y_{c-1}}}\)
+  soit \(3\) multiplications de plus pour chaque itération.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Algorithm 1: Calcule de p(c | y)}
+\NormalTok{{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+
+\NormalTok{Initialisation :}
+\NormalTok{    R₁ = 1, S = 1}
+
+\NormalTok{Pour c = 2 à n :}
+\NormalTok{    1. calculer Rc}
+\NormalTok{    2. S += Rc}
+
+\NormalTok{Pour c = 1 à n :}
+\NormalTok{    p(c|n) = Rc/S}
+
+\NormalTok{Sortie :}
+\NormalTok{    p(c|y) pour tout c = 1, ..., n}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Chaque itération nécessite un \(O(1)\) de multiplications, d'où
+  l'algorithme calcule les \(p(c|y)\) \(\forall c=1,...,n\) en \(O(n)\).
+\end{itemize}
+
+\subsubsection{5.}\label{section-4}
+
+\begin{itemize}
+\item
+  Pour tester la validiter de l'algorithme de Gibbs on peut calculer la
+  valeur theorique de la probabilité de \(c|y\) :
+\item
+  On a : \[
+  \begin{align}
+  p(c|y) &= \int_0^1\int_0^1p(c,\theta_1, \theta_2|y)d\theta_1d\theta_2
+  \end{align}
+  \] avec : \[
+  \begin{align}
+  p(c,\theta_1, \theta_2|y) &= p(y|c,\theta_1, \theta_2).\frac{p(\theta)}{p(y)}\\
+                  &\propto p(y|c,\theta_1, \theta_2).\frac1n \\
+                  &\propto \theta_1^{\sum_{i=1}^{c-1} y_i}.(1-\theta_1)^{c-1-\sum_{i=1}^{c-1} y_i} . \theta_2^{\sum_{i=c}^n y_i}.(1-\theta_2)^{n-c+1-\sum_{i=c}^n y_i} \\
+  \end{align}
+  \]
+\item
+  On note \(s_1 = \sum_{i=1}^{c-1} y_i\), \(n_1 = c-1\),
+  \(s_2 = \sum_{i=c}^n y_i\) et \(n_2 = n - c +1\) et \(A(y)\) le
+  coefficient de proportionalité. Alors on a : \[
+  \begin{align}
+  p(c|y) &= \int_0^1\int_0^1A(y).\theta_1^{s_1}.(1-\theta_1)^{n_1 - s_1} . \theta_2^{s_2}.(1-\theta_2)^{n_2 - s_2}d\theta_1d\theta_2 \\
+       &= A(y).\int_0^1 \theta_1^{s_1}.(1-\theta_1)^{n_1 - s_1}d\theta_1\int_0^1\theta_2^{s_2}.(1-\theta_2)^{n_2 - s_2}d\theta_2 \\
+       &= A(y).B(s_1+1, n_1 - s_1 + 1).B(s_2 + 1, n_2 - s_2 + 1)
+  \end{align}
+  \]
+\item
+  On se base pour l'algorithm de Gibbs sur la formule:
+\end{itemize}
+
+\[
+\begin{align}
+p(c|y) &= \int_0^1\int_0^1p(c|\theta_1, \theta_2, y)p(\theta_1, \theta_2|y)d\theta_1d\theta_2
+\end{align}
+\] - On remarque bien que les \(\theta_1|y\) et \(\theta_2|y\) ne sont
+pas indépendants.
+
+\begin{itemize}
+\tightlist
+\item
+  On approche donc \(p(c|y)\) par la loi de
+  \(p(c|\theta_1, \theta_2, y)\) calculée auparavant pour des valeurs
+  ``mises à jour'' de \(\theta_1\) et \(\theta_2\).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# Algorithme de Gibbs.}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{GibbsAlgo }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y, n\_iter, c\_current)\{}
+  \CommentTok{\# initialisation}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y)}
+\NormalTok{  c\_samples }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n\_iter)}
+  
+  \CommentTok{\# Gibbs algo}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_iter) \{}
+    \CommentTok{\# Sample theta|c, y}
+\NormalTok{    s\_1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(c\_current }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)])}
+\NormalTok{    s\_2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(y[c\_current}\SpecialCharTok{:}\NormalTok{n])}
+\NormalTok{    n\_1 }\OtherTok{\textless{}{-}}\NormalTok{ c\_current }\SpecialCharTok{{-}} \DecValTok{1}
+\NormalTok{    n\_2 }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{{-}}\NormalTok{ c\_current }\SpecialCharTok{+} \DecValTok{1}
+    
+\NormalTok{    theta\_1 }\OtherTok{\textless{}{-}} \FunctionTok{rbeta}\NormalTok{(}\DecValTok{1}\NormalTok{, s\_1 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, n\_1 }\SpecialCharTok{{-}}\NormalTok{ s\_1 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
+\NormalTok{    theta\_2 }\OtherTok{\textless{}{-}} \FunctionTok{rbeta}\NormalTok{(}\DecValTok{1}\NormalTok{, s\_2 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, n\_2 }\SpecialCharTok{{-}}\NormalTok{ s\_2 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
+    
+    \CommentTok{\# log{-}proba for all c}
+\NormalTok{    log\_probs }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+    \ControlFlowTok{for}\NormalTok{ (c }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
+\NormalTok{      s\_1 }\OtherTok{\textless{}{-}} \ControlFlowTok{if}\NormalTok{ (c }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\DecValTok{0} \ControlFlowTok{else} \FunctionTok{sum}\NormalTok{(y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(c }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)])}
+\NormalTok{      s\_2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(y[c}\SpecialCharTok{:}\NormalTok{n])}
+\NormalTok{      n\_1 }\OtherTok{\textless{}{-}}\NormalTok{ c }\SpecialCharTok{{-}} \DecValTok{1}
+\NormalTok{      n\_2 }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{{-}}\NormalTok{ c }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{      log\_probs[c] }\OtherTok{\textless{}{-}}\NormalTok{ s\_1 }\SpecialCharTok{*} \FunctionTok{log}\NormalTok{(theta\_1) }\SpecialCharTok{+}\NormalTok{ (n\_1 }\SpecialCharTok{{-}}\NormalTok{ s\_1) }\SpecialCharTok{*} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ theta\_1) }\SpecialCharTok{+}
+\NormalTok{        s\_2 }\SpecialCharTok{*} \FunctionTok{log}\NormalTok{(theta\_2) }\SpecialCharTok{+}\NormalTok{ (n\_2 }\SpecialCharTok{{-}}\NormalTok{ s\_2) }\SpecialCharTok{*} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ theta\_2)}
+\NormalTok{    \}}
+    
+    \CommentTok{\# Normalization}
+\NormalTok{    probs }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(log\_probs }\SpecialCharTok{{-}} \FunctionTok{max}\NormalTok{(log\_probs))}
+\NormalTok{    probs }\OtherTok{\textless{}{-}}\NormalTok{ probs }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(probs)}
+    
+    \CommentTok{\# new c}
+\NormalTok{    c\_current }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n, }\DecValTok{1}\NormalTok{, }\AttributeTok{prob =}\NormalTok{ probs)}
+\NormalTok{    c\_samples[i] }\OtherTok{\textless{}{-}}\NormalTok{ c\_current}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(c\_samples)}
+\NormalTok{\}}
+
+\CommentTok{\# Valeurs pour tester}
+
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y)}
+\NormalTok{n\_iter }\OtherTok{\textless{}{-}} \DecValTok{5000}
+\NormalTok{burn\_in }\OtherTok{\textless{}{-}} \DecValTok{1000}
+
+
+
+\CommentTok{\# Choisir un c\_init aléatoire}
+\NormalTok{c\_init }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\NormalTok{n, }\DecValTok{1}\NormalTok{)}
+
+\NormalTok{c\_samples }\OtherTok{\textless{}{-}} \FunctionTok{GibbsAlgo}\NormalTok{(y, n\_iter, c\_init)}
+
+\CommentTok{\# Burn{-}in}
+\NormalTok{c\_samples }\OtherTok{\textless{}{-}}\NormalTok{ c\_samples[(burn\_in }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n\_iter]}
+
+
+
+\NormalTok{counts }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(c\_samples)}
+\NormalTok{p\_gibbs }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{p\_gibbs[}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{names}\NormalTok{(counts))] }\OtherTok{\textless{}{-}}\NormalTok{ counts }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(counts)}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# Valeure "exacte" théorique.}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+
+\NormalTok{c\_true }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+\ControlFlowTok{for}\NormalTok{ (c }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
+\NormalTok{  s\_1 }\OtherTok{\textless{}{-}} \ControlFlowTok{if}\NormalTok{ (c }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\DecValTok{0} \ControlFlowTok{else} \FunctionTok{sum}\NormalTok{(y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(c }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)])}
+\NormalTok{  s\_2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(y[c}\SpecialCharTok{:}\NormalTok{n])}
+\NormalTok{  n\_1 }\OtherTok{\textless{}{-}}\NormalTok{ c }\SpecialCharTok{{-}} \DecValTok{1}
+\NormalTok{  n\_2 }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{{-}}\NormalTok{ c }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{  c\_true[c] }\OtherTok{\textless{}{-}} \FunctionTok{beta}\NormalTok{(s\_1 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, n\_1 }\SpecialCharTok{{-}}\NormalTok{ s\_1 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{beta}\NormalTok{(s\_2 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, n\_2 }\SpecialCharTok{{-}}\NormalTok{ s\_2 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
+\NormalTok{\}}
+\NormalTok{c\_true }\OtherTok{\textless{}{-}}\NormalTok{ c\_true }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(c\_true)}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# Visualization \& comparaison}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+
+\NormalTok{c\_values }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\# Plot 1: valeures estimées par Gibbs}
+\FunctionTok{barplot}\NormalTok{(}
+\NormalTok{  p\_gibbs,}
+  \AttributeTok{names.arg =}\NormalTok{ c\_values,}
+  \AttributeTok{col =} \StringTok{"steelblue"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Gibbs Estimate of p(c|y)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"c"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Probability"}
+\NormalTok{)}
+
+\CommentTok{\# Plot 2: valeures théoriques}
+\FunctionTok{barplot}\NormalTok{(}
+\NormalTok{  c\_true,}
+  \AttributeTok{names.arg =}\NormalTok{ c\_values,}
+  \AttributeTok{col =} \StringTok{"darkorange"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"proba théorique p(c|y)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"c"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Probability"}\NormalTok{,}
+  \AttributeTok{border =} \ConstantTok{NA}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{TP2_MPA_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{6.}\label{section-5}
+
+\begin{itemize}
+\tightlist
+\item
+  On teste la convergence de l'algorithme :
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_runs }\OtherTok{\textless{}{-}} \DecValTok{7} \CommentTok{\# nombres de valeurs de c aléatoires}
+\NormalTok{colors }\OtherTok{\textless{}{-}} \FunctionTok{rainbow}\NormalTok{(n\_runs)}
+
+\CommentTok{\#}
+
+\NormalTok{max\_prob }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{max\_c    }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+
+\ControlFlowTok{for}\NormalTok{ (run }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_runs)\{}
+\NormalTok{  c\_init }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n, }\DecValTok{1}\NormalTok{)}
+\NormalTok{  c\_samples }\OtherTok{\textless{}{-}} \FunctionTok{GibbsAlgo}\NormalTok{(y, n\_iter, c\_init)}
+\NormalTok{  c\_samples }\OtherTok{\textless{}{-}}\NormalTok{ c\_samples[(burn\_in}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n\_iter]}
+  
+\NormalTok{  counts }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{  max\_probs }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(}\FunctionTok{length}\NormalTok{(c\_samples))}
+  
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(c\_samples))\{}
+\NormalTok{    counts[c\_samples[i]] }\OtherTok{\textless{}{-}}\NormalTok{ counts[c\_samples[i]] }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{    max\_probs[i] }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(counts }\SpecialCharTok{/}\NormalTok{ i)}
+\NormalTok{  \}}
+\NormalTok{  max\_prob[[run]] }\OtherTok{\textless{}{-}}\NormalTok{ max\_probs}
+\NormalTok{\}}
+
+\DocumentationTok{\#\# Plot des max\_probas pour chaque valeur c\_init}
+
+\FunctionTok{plot}\NormalTok{(max\_prob[[}\DecValTok{1}\NormalTok{]], }\AttributeTok{type=}\StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{, }\AttributeTok{lty=}\DecValTok{1}\NormalTok{, }\AttributeTok{col=}\NormalTok{colors[}\DecValTok{1}\NormalTok{],}
+     \AttributeTok{xlab=}\StringTok{\textquotesingle{}Iteration (avec burn{-}in)\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab=}\StringTok{\textquotesingle{}Max cumu proba\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{main=}\StringTok{"Convergence de l\textquotesingle{}algorithme Gibbs (max seulement)"}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{(run }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{n\_runs)\{}
+  \FunctionTok{lines}\NormalTok{(max\_prob[[run]], }\AttributeTok{col=}\NormalTok{colors[run], }\AttributeTok{lty=}\DecValTok{1}\NormalTok{)}
+\NormalTok{\}}
+
+\FunctionTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{, }\AttributeTok{legend=}\FunctionTok{paste}\NormalTok{(}\StringTok{"Run"}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_runs), }\AttributeTok{col=}\NormalTok{colors, }\AttributeTok{lty=}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{TP2_MPA_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  On a donc convergence vers une même probabilité pour des valeurs
+  initiales différentes de \(c\) (on plot ici le max seulement pour la
+  visibilité)
+\end{itemize}
+
+\subsubsection{7.}\label{section-6}
+
+Analyser les jeux de données envoyés en pièce jointe par l'enseignant.
+Décrire l'incertitude sur le(s) point(s) de changement pour ces jeux de
+données (localisation des points des changements et intervalles
+contenant chacun des points avec une probabilité supérieure à 50\%).**
+
+\textbf{Séquence 1} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# Chargement des données}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{y1 }\OtherTok{\textless{}{-}} \FunctionTok{scan}\NormalTok{(}\StringTok{"TP2\_sequence\_1.txt"}\NormalTok{)}
+\NormalTok{y2 }\OtherTok{\textless{}{-}} \FunctionTok{scan}\NormalTok{(}\StringTok{"TP2\_sequence\_2.txt"}\NormalTok{)}
+
+\NormalTok{n\_iter }\OtherTok{\textless{}{-}} \DecValTok{5000}
+\NormalTok{burn\_in }\OtherTok{\textless{}{-}} \DecValTok{1000}
+
+\NormalTok{compute\_probs }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y, n\_iter, burn\_in) \{}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y)}
+\NormalTok{  c\_init }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\NormalTok{n, }\DecValTok{1}\NormalTok{)}
+\NormalTok{  c\_samples }\OtherTok{\textless{}{-}} \FunctionTok{GibbsAlgo}\NormalTok{(y, n\_iter, c\_init)}
+\NormalTok{  c\_samples }\OtherTok{\textless{}{-}}\NormalTok{ c\_samples[(burn\_in }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n\_iter]}
+
+\NormalTok{  counts }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(c\_samples)}
+\NormalTok{  p\_gibbs }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{  p\_gibbs[}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{names}\NormalTok{(counts))] }\OtherTok{\textless{}{-}}\NormalTok{ counts }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(counts)}
+
+\NormalTok{  c\_true }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+  \ControlFlowTok{for}\NormalTok{ (c }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
+\NormalTok{    s\_1 }\OtherTok{\textless{}{-}} \ControlFlowTok{if}\NormalTok{ (c }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\DecValTok{0} \ControlFlowTok{else} \FunctionTok{sum}\NormalTok{(y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(c }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)])}
+\NormalTok{    s\_2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(y[c}\SpecialCharTok{:}\NormalTok{n])}
+\NormalTok{    n\_1 }\OtherTok{\textless{}{-}}\NormalTok{ c }\SpecialCharTok{{-}} \DecValTok{1}
+\NormalTok{    n\_2 }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{{-}}\NormalTok{ c }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{    c\_true[c] }\OtherTok{\textless{}{-}} \FunctionTok{beta}\NormalTok{(s\_1 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, n\_1 }\SpecialCharTok{{-}}\NormalTok{ s\_1 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{beta}\NormalTok{(s\_2 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{, n\_2 }\SpecialCharTok{{-}}\NormalTok{ s\_2 }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{  c\_true }\OtherTok{\textless{}{-}}\NormalTok{ c\_true }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(c\_true)}
+
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{p\_gibbs =}\NormalTok{ p\_gibbs, }\AttributeTok{c\_true =}\NormalTok{ c\_true)}
+\NormalTok{\}}
+
+\NormalTok{res1 }\OtherTok{\textless{}{-}} \FunctionTok{compute\_probs}\NormalTok{(y1, n\_iter, burn\_in)}
+\NormalTok{res2 }\OtherTok{\textless{}{-}} \FunctionTok{compute\_probs}\NormalTok{(y2, n\_iter, burn\_in)}
+
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+
+\FunctionTok{barplot}\NormalTok{(}
+\NormalTok{  res1}\SpecialCharTok{$}\NormalTok{p\_gibbs,}
+  \AttributeTok{col =} \StringTok{"skyblue"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Gibbs p(c|y1)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"c"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Probability"}
+\NormalTok{)}
+
+\FunctionTok{barplot}\NormalTok{(}
+\NormalTok{  res1}\SpecialCharTok{$}\NormalTok{c\_true,}
+  \AttributeTok{col =} \StringTok{"darkorange"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Exact p(c|y1)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"c"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Probability"}
+\NormalTok{)}
+
+\CommentTok{\# Ligne 2 : y2}
+\FunctionTok{barplot}\NormalTok{(}
+\NormalTok{  res2}\SpecialCharTok{$}\NormalTok{p\_gibbs,}
+  \AttributeTok{col =} \StringTok{"skyblue"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Gibbs Estimate"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"c"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Probability"}
+\NormalTok{)}
+
+\FunctionTok{barplot}\NormalTok{(}
+\NormalTok{  res2}\SpecialCharTok{$}\NormalTok{c\_true,}
+  \AttributeTok{col =} \StringTok{"darkorange"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Exact p(c|y2)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"c"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Probability"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{TP2_MPA_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))  }\CommentTok{\# reset layout}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  La courbe est unimodale, on a donc un point de changement :
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# TP2 – Détection de points de changement (MPA)}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+
+\CommentTok{\# {-}{-}{-} Fonctions utilitaires {-}{-}{-}}
+\NormalTok{get\_change\_point\_summary }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y, }\AttributeTok{n\_iter =} \DecValTok{5000}\NormalTok{, }\AttributeTok{burn\_in =} \DecValTok{1000}\NormalTok{) \{}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y)}
+  
+  \CommentTok{\# effectuer un sampling Gibbs}
+
+\NormalTok{  c\_init }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n, }\DecValTok{1}\NormalTok{)}
+\NormalTok{  c\_samples }\OtherTok{\textless{}{-}} \FunctionTok{GibbsAlgo}\NormalTok{(y, n\_iter, c\_init)}
+\NormalTok{  c\_samples }\OtherTok{\textless{}{-}}\NormalTok{ c\_samples[(burn\_in }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n\_iter]}
+  
+  \CommentTok{\# }
+\NormalTok{  c\_est }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(c\_samples), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{))[}\DecValTok{1}\NormalTok{])}
+\NormalTok{  ci }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(c\_samples, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.125}\NormalTok{, }\FloatTok{0.875}\NormalTok{))  }\CommentTok{\# interval de confience de 75\%}
+  
+  \CommentTok{\# frequences avant et après le point de changement}
+\NormalTok{  f\_before }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(y[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(c\_est }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)])}
+\NormalTok{  f\_after  }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(y[c\_est}\SpecialCharTok{:}\NormalTok{n])}
+  
+  \FunctionTok{data.frame}\NormalTok{(}
+    \StringTok{"No"} \OtherTok{=} \DecValTok{1}\NormalTok{,}
+    \StringTok{"Point estimé"} \OtherTok{=}\NormalTok{ c\_est,}
+    \StringTok{"Borne inf. 75\%"} \OtherTok{=} \FunctionTok{round}\NormalTok{(ci[}\DecValTok{1}\NormalTok{]),}
+    \StringTok{"Borne sup. 75\%"} \OtherTok{=} \FunctionTok{round}\NormalTok{(ci[}\DecValTok{2}\NormalTok{]),}
+    \StringTok{"Fréq. avant"} \OtherTok{=} \FunctionTok{round}\NormalTok{(f\_before, }\DecValTok{3}\NormalTok{),}
+    \StringTok{"Fréq. après"} \OtherTok{=} \FunctionTok{round}\NormalTok{(f\_after, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{\}}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# Chargement des suites }
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{y1 }\OtherTok{\textless{}{-}} \FunctionTok{scan}\NormalTok{(}\StringTok{"TP2\_sequence\_1.txt"}\NormalTok{)}
+\NormalTok{y2 }\OtherTok{\textless{}{-}} \FunctionTok{scan}\NormalTok{(}\StringTok{"TP2\_sequence\_2.txt"}\NormalTok{)}
+
+\NormalTok{res1 }\OtherTok{\textless{}{-}} \FunctionTok{get\_change\_point\_summary}\NormalTok{(y1)}
+\NormalTok{res2 }\OtherTok{\textless{}{-}} \FunctionTok{get\_change\_point\_summary}\NormalTok{(y2)}
+
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# Résultats finaux}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{{-}{-}{-} Résultats pour TP2\_sequence\_1 {-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## --- Résultats pour TP2_sequence_1 ---
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(res1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       No Point.estimé Borne.inf..75. Borne.sup..75. Fréq..avant Fréq..après
+## 12.5%  1           56             43             57       0.255       0.653
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{{-}{-}{-} Résultats pour TP2\_sequence\_2 {-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## --- Résultats pour TP2_sequence_2 ---
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(res2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       No Point.estimé Borne.inf..75. Borne.sup..75. Fréq..avant Fréq..après
+## 12.5%  1          315            311            318       0.331       0.871
+\end{verbatim}
+
+\end{document}
