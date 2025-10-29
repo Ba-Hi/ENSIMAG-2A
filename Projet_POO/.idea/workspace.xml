@@ -5,26 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad07bf31-c767-425e-9818-36cc1045e227" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Cases.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ConwaySimulator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TestConwaySimulator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ImmigrationSimulator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/TestImmigration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Balls.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Balls.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/BallsSimulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/BallsSimulator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/TestBallsSimulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/TestBallsSimulator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/GUISimulator.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/GraphicalElement.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/ImageElement.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/Oval.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/Rectangle.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/Simulable.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/Text.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/package-summary.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/gui/package-tree.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Balls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Balls.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BallsSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BallsSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TestBallsSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TestBallsSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CasesImmigration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CasesImmigration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +63,8 @@
       <workItem from="1761508230955" duration="902000" />
       <workItem from="1761513811867" duration="17000" />
       <workItem from="1761514683389" duration="7389000" />
-      <workItem from="1761672715156" duration="18525000" />
+      <workItem from="1761672715156" duration="21487000" />
+      <workItem from="1761770378957" duration="2147000" />
     </task>
     <servers />
   </component>
