@@ -6,7 +6,7 @@ import java.awt.Color;
  * Programme principal pour démarrer l'interface graphique de simulation
  * et y associer notre BallsSimulator.
  */
-public class TestBallsSimulator {
+public class TestConwaySimulator {
 
     public static void main(String[] args) {
         // Création de la fenêtre de simulation (taille et couleur de fond)
@@ -15,7 +15,7 @@ public class TestBallsSimulator {
         GUISimulator gui = new GUISimulator(500, 500, Color.WHITE);
 
         // Création de l'instance du simulateur
-        BallsSimulator simulator = new BallsSimulator(gui);
+        ConwaySimulator simulator = new ConwaySimulator(gui);
 
         // Association du simulateur à l'interface graphique
         // BallsSimulator implémente Simulable, ce qui est attendu par setSimulable()
