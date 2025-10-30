@@ -8,45 +8,29 @@ public class Cases {
     private List<Point> initialPositions;
     private int hauteurGrilleN;
     private int largeurGrilleM;
+    private int tailleCellule = 10;
 
     public Cases() {
         this.positionsCases = new ArrayList<>();
         this.initialPositions = new ArrayList<>();
         this.hauteurGrilleN = 500;
         this.largeurGrilleM = 500;
-        Random rand = new Random();
-        Point p1 = new Point(
-                (rand.nextInt(largeurGrilleM / 10) + 1) * 10,
-                (rand.nextInt(hauteurGrilleN / 10) + 1) * 10
-        );
 
-        Point p2 = new Point(
-                (rand.nextInt(largeurGrilleM / 10) + 1) * 10,
-                (rand.nextInt(hauteurGrilleN / 10) + 1) * 10
-        );
-
-        Point p3 = new Point(
-                (rand.nextInt(largeurGrilleM / 10) + 1) * 10,
-                (rand.nextInt(hauteurGrilleN / 10) + 1) * 10
-        );
-
-        Point p4 = new Point(Math.min(p1.x + 10, largeurGrilleM), Math.min(p1.y + 10, hauteurGrilleN));
-        Point p5 = new Point(Math.min(p1.x + 10, largeurGrilleM), p1.y);
-
-
-
-        this.positionsCases.add(p1);
-        this.positionsCases.add(p2);
-        this.positionsCases.add(p3);
-        this.positionsCases.add(p4);
-        this.positionsCases.add(p5);
-
-        this.initialPositions.add((Point) p1.clone()); // gérer le prb de réference !
-        this.initialPositions.add((Point) p2.clone());
-        this.initialPositions.add((Point) p3.clone());
-        this.initialPositions.add((Point) p4.clone());
-        this.initialPositions.add((Point) p5.clone());
+        initialiserAleatoirement();
     }
+
+    public void initialiserAleatoirement(){
+        Random rand = new Random();
+        int nbCellulesVivantes = rand.nextInt(hauteurGrilleN/tailleCellule * largeurGrilleM/tailleCellule) + 1;
+        for (int i = 0; i < nbCellulesVivantes; i += 1) {
+            int x = (rand.nextInt(largeurGrilleM/10 + 1)) * 10;
+            int y = (rand.nextInt(hauteurGrilleN/10 + 1)) * 10;
+            Point p = new Point(x, y);
+            positionsCases.add(p);
+            initialPositions.add((Point) p.clone());
+        }
+    }
+
 
     void addCase(int dx, int dy){
         positionsCases.add(new Point(dx, dy));

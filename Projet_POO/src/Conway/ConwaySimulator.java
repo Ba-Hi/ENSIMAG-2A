@@ -17,7 +17,7 @@ public class ConwaySimulator implements Simulable {
         gui.reset();
         for (Point p : cases.getCases()){
             gui.addGraphicalElement(
-                    new gui.Rectangle(p.x, p.y, Color .green, Color .green, 10)
+                    new gui.Rectangle(p.x, p.y, Color .black, Color .black, 10)
             );
         }
     }

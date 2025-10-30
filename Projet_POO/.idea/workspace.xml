@@ -5,11 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad07bf31-c767-425e-9818-36cc1045e227" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ImmigrationSimulator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TestImmigration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../POO_projet/.idea/workspace.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CasesImmigration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CasesImmigration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Cases.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Cases.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ConwaySimulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ConwaySimulator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Balls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Balls/Balls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BallsSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Balls/BallsSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cases.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Conway/Cases.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CasesImmigration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Immigration/CasesImmigration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ConwaySimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Conway/ConwaySimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ImmigrationSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Immigration/ImmigrationSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestBalls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Balls/TestBalls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestBallsSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Balls/TestBallsSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestConwaySimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Conway/TestConwaySimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestImmigration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Immigration/TestImmigration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +54,13 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Conway" />
+      <recent name="$PROJECT_DIR$/src/Immigration" />
+      <recent name="$PROJECT_DIR$/src/Balls" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -64,7 +81,8 @@
       <workItem from="1761513811867" duration="17000" />
       <workItem from="1761514683389" duration="7389000" />
       <workItem from="1761672715156" duration="21487000" />
-      <workItem from="1761770378957" duration="2147000" />
+      <workItem from="1761770378957" duration="3518000" />
+      <workItem from="1761835179170" duration="1624000" />
     </task>
     <servers />
   </component>
