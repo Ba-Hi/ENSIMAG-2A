@@ -7,21 +7,27 @@ a = 1/32
 T = 2*N*a
 
 def f(x):
-    return np.exp(2*i*np.pi*F0*x)
+    return np.exp(2*np.pi*F0*x*1j)
 
-k = np.arange(n)
-
-a = np.zeros(n)
+n = np.arange(N)
+k = 0
+an = np.zeros(N)
 
 for n in range(N):
-    a[n] = f(na)
+    an[n] = f(n*a)
 
 b = np.zeros(N)
 for n in range(N):
-    b[n] = f(-(n+1)a) * np.exp(2*i*np.pi*(n+1)a* k/T) * np.exp(-2*i*np.pi*n*a* k/T)
+    b[n] = f(-1 * ( n + 1 ) *a) * np.exp(2*np.pi*(n+1) * a* k/T * 1j) * np.exp(-2*np.pi*n*a* k/T*1j)
 
 
 
-A = np.fft.fft(a)
+A = np.fft.fft(an)
 B = np.fft.fft(b)
+
+result = a * (A + B)
+
+plt.stem(np.abs(result))
+plt.show()
+
 
