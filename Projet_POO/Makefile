@@ -22,7 +22,7 @@
 GUI_JAR = lib/gui.jar
 SRC_DIR = src
 BIN_DIR = bin
-MAIN_CLASS = TestImmigrationSimulator
+MAIN_CLASS = TestSchellingSimulator
 
 CLASSPATH = $(BIN_DIR):$(GUI_JAR)
 
