@@ -29,7 +29,10 @@ public class BallsSimulator implements Simulable {
     @Override
     public void next() {
         this.balls.translate(VX, VY);
+        List<Point> vitesses = new ArrayList<>();
         for (Point p : balls.getBalls()){
+            Point vitesse = new Point(VX, VY);
+            vitesses.add(vitesse);
             if (p.x <= 0 || p.x >= 500){ // touche bord gauche ou droite
                 VX = - VX;
                 p.y += VY;

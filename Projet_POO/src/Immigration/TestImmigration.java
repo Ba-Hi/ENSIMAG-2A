@@ -15,7 +15,7 @@ public class TestImmigration {
         GUISimulator gui = new GUISimulator(500, 500, Color.WHITE);
 
         // Création de l'instance du simulateur
-        ImmigrationSimulator simulator = new ImmigrationSimulator(gui, 2);
+        ImmigrationSimulator simulator = new ImmigrationSimulator(gui, 5);
 
         // Association du simulateur à l'interface graphique
         // BallsSimulator implémente Simulable, ce qui est attendu par setSimulable()

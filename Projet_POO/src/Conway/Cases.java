@@ -44,10 +44,7 @@ public class Cases {
     }
 
     public void evolve() {
-        // Chaque cellule de la grille peut prendre deux états : vivant ou mort.
-        // Une cellule morte possédant exactement trois voisines (sur huit) vivantes devient vivante (elle naît).
-        // Une cellule vivante possédant deux ou trois voisines (sur huit) vivantes le reste, sinon elle meurt.
-
+      
         List<Point> ancienneListe = new ArrayList<>();
         for (Point p : positionsCases) {
             ancienneListe.add(new Point(p)); // copie

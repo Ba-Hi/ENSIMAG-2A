@@ -20,9 +20,9 @@
 #   -classpath : répertoire dans lequel sont cherchées les classes compilées (.class et .jar)
 
 GUI_JAR = lib/gui.jar
-SRC_DIR = src/Immigration
+SRC_DIR = src
 BIN_DIR = bin
-MAIN_CLASS = TestImmigration
+MAIN_CLASS = TestImmigrationSimulator
 
 CLASSPATH = $(BIN_DIR):$(GUI_JAR)
 
