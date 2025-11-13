@@ -70,7 +70,7 @@ public class Schelling extends AutomateCellulaire {
                 int nx = (cx + dx + hauteurGrilleN / tailleCellule) % (hauteurGrilleN / tailleCellule);
                 int ny = (cy + dy + largeurGrilleM / tailleCellule) % (largeurGrilleM / tailleCellule);
 
-                if (grille[nx][ny] == couleurCourante) {
+                if (grille[nx][ny] == couleurCourante || grille[nx][ny] == 0) {
                     voisinsSimilaires++;
                 }
             }
