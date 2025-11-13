@@ -1,7 +1,6 @@
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public abstract class AutomateCellulaire {
     protected List<Point> positions;

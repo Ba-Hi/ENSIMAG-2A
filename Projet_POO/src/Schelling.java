@@ -38,28 +38,24 @@ public class Schelling extends AutomateCellulaire {
     @Override
     public void evolve() {
         Random rand = new Random();
+        List<Point> pointAChanger = new ArrayList<>();
         for (int i=0; i<hauteurGrilleN / tailleCellule; i++) {
             for (int j=0; j<largeurGrilleM / tailleCellule; j++) {
                 if (grille[i][j] != 0) {
                     int voisinsSimilaires = compterVoisinsCouleurs(i, j);
                     if (8 - voisinsSimilaires > seuilK) {
-                        int indexVacant = rand.nextInt(casesVacantes.size());
-                        Point nouvellePosition = casesVacantes.get(indexVacant);
-                        
-                        // Mise à jour de la liste des cases vacantes
-                        casesVacantes.set(indexVacant, new Point(i, j)); // l’ancienne devient vide
-
-                        // Mise à jour de la liste des positions (pour affichage)
-                        positions.remove(new Point(i * tailleCellule, j * tailleCellule));
-                        positions.add(new Point(nouvellePosition.x * tailleCellule, nouvellePosition.y * tailleCellule));
-                        
-                        // Mise à jour de la grille
-                        grille[nouvellePosition.x][nouvellePosition.y] = grille[i][j];
-                        grille[i][j] = 0;
+                        pointAChanger.add(new Point(i, j));
                     }
                 }
-
             }
+        }
+        for (Point p : pointAChanger) {
+            int positionAleatoire = rand.nextInt(casesVacantes.size());
+            Point caseVide = casesVacantes.get(positionAleatoire);
+            grille[caseVide.x][caseVide.y] = grille[p.x][p.y];
+            grille[p.x][p.y] = 0;
+            casesVacantes.remove(positionAleatoire);
+            casesVacantes.add(new Point(p.x, p.y));
         }
     }
 
@@ -88,6 +84,10 @@ public class Schelling extends AutomateCellulaire {
 
     public int getNombreCouleurs() {
         return this.nombreCouleurs;
+    }
+
+    public int getCouleurCellule(int i, int j) {
+        return this.grille[i][j];
     }
 
 }
