@@ -3,22 +3,23 @@
 
 
 
+import java.util.List;
 
+import java.util.ArrayList;
 
 
 public class Boid {
     private Vector2D position;
     private Vector2D vitesse;
     private Vector2D acceleration;
-    private double maxVitesse;
-    private double maxForce;
+    private double maxVitesse = 4;
+    private double maxForce = 0.1;
 
-    public Boid(Vector2D pos, Vector2D vel, double maxVitesse, double maxForce) {
+    public Boid(Vector2D pos, Vector2D vel) {
         this.position = pos;
         this.vitesse = vel;
         this.acceleration = new Vector2D(0, 0);
-        this.maxVitesse = 4;
-        this.maxForce = 0.1;
+    
     }
 
     public void applyForce(Vector2D force) {
@@ -27,7 +28,7 @@ public class Boid {
 
     public void update() {
         vitesse = vitesse.add(acceleration); // v_n+1 = v_n + a_n
-        vitesse = vitesse.limit(maxSpeed); // limiter la vitesse
+        vitesse = vitesse.limit(maxVitesse); // limiter la vitesse
         position = position.add(vitesse); // x_n+1 = x_n + v_n
         acceleration = new Vector2D(0, 0); // réinitialiser l'accélération, à chaque itération
     }
@@ -46,7 +47,7 @@ public class Boid {
         // Vecteur désiré : de la position actuelle vers le centre
         // AG = F_cohesion = center - position = position_G - position_Boid
         Vector2D desired = center.subtract(this.position);
-        desired = desired.normalize().multiply(maxSpeed); // vitesse désirée à la direction de G
+        desired = desired.normalize().multiply(maxVitesse); // vitesse désirée à la direction de G
         Vector2D steer = desired.subtract(this.vitesse); // force de steering : difference entre vitesse désirée et actuelle
         
         return steer.limit(maxForce);
@@ -63,7 +64,7 @@ public class Boid {
         if (count == 0) return new Vector2D(0, 0);
         avgVel = avgVel.divide(count);
         
-        avgVel = avgVel.normalize().multiply(maxSpeed);
+        avgVel = avgVel.normalize().multiply(maxVitesse);
         Vector2D steer = avgVel.subtract(this.vitesse);
         return steer.limit(maxForce);
     }
@@ -83,7 +84,7 @@ public class Boid {
         }
         if (count == 0) return new Vector2D(0, 0);
         steer = steer.divide(count);
-        steer = steer.normalize().multiply(maxSpeed);
+        steer = steer.normalize().multiply(maxVitesse);
         steer = steer.subtract(this.vitesse);
         return steer.limit(maxForce);
     }
@@ -119,10 +120,33 @@ public class Boid {
     public Vector2D getVelocity() {
         return vitesse;
     }
+
+    public void bounce(double width, double height) {
+        if (position.x < 0) {
+            position.x = 0;
+            vitesse.x = -vitesse.x;
+        } 
+        else if (position.x > width) {
+            position.x = width;
+            vitesse.x = -vitesse.x;
+        }
+
+        // Bords haut et bas
+        if (position.y < 0) {
+            position.y = 0;
+            vitesse.y = -vitesse.y;
+        } 
+        else if (position.y > height) {
+            position.y = height;
+            vitesse.y = -vitesse.y;
+        }
+    }
+
+
 }
 
 
-public class Vector2D {
+class Vector2D {
     public double x, y;
 
     public Vector2D(double x, double y) {

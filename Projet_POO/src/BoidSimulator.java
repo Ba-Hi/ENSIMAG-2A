@@ -13,7 +13,10 @@ public class BoidSimulator {
         this.gui = gui;
         this.boids = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            boids.add(new Boid(Math.random()*500, Math.random()*500));
+            boids.add(new Boid(
+                new Vector2D(Math.random()*500, Math.random()*500),
+                new Vector2D(Math.random()*2 - 1, Math.random()*2 - 1)
+            ));
         }
     }
 
@@ -21,8 +24,10 @@ public class BoidSimulator {
         gui.reset();
         for (Boid b : boids) {
             b.move(boids);
-            drawBoid(b);
             b.update();
+            b.bounce(500, 500);
+            drawBoid(b);
+
         }
     }
 
@@ -48,7 +53,7 @@ public class BoidSimulator {
         triangle.addPoint(x2, y2);
         triangle.addPoint(x3, y3);
 
-        gui.addGraphicalElement(new gui.Circle((int)pos.x, (int)pos.y, Color.BLUE, Color.BLUE, 10));
+        gui.addGraphicalElement(new gui.Oval((int)pos.x, (int)pos.y, Color.BLUE, Color.BLUE, 10));
 
         // gui.addGraphicalElement(new gui.PolygonElement(triangle, Color.BLUE, Color.BLUE));
     }

@@ -52,12 +52,12 @@ $$
 
 ```{r}
 set.seed(123) #reproductibilité des résultats
-
-nit <- 10000
-theta.0 <- 0.5
+algorithme_metropolis <- function(y, theta.0, nit) {
+# nit <- 10000
+# theta.0 <- 0.5
 theta.post <- numeric(nit+1)
 theta.post[1] <- theta.0
-y <- c(100, 0, 10, 4, 5)
+# y <- c(100, 0, 10, 4, 5)
 n <- length(y)
 
 for (i in 1:nit)
@@ -73,38 +73,65 @@ for (i in 1:nit)
   } 
   theta.post[i+1] <- theta.0
 }
+return (theta.post)
+}
 ```
 
 **Q4. Fournir une estimation ponctuelle du paramètre theta (moyenne et médiane a posteriori). Donner un intervalle de crédibilité à 95% pour ce paramètre.**
 
 ```{r}
-IC <- quantile(theta.post, probs = c(0.025, 0.975))
-cat("Moyenne du paramètre theta :")
-mean(theta.post)
-cat("Médiane du paramètre theta :")
-median(theta.post)
-cat("IC à 95% \n")
-IC
+lambda0 <- 5
+n <- 200              
+y <- rpois(n, lambda0)
+
+theta.post <- algorithme_metropolis(y, theta.0 = 1, nit = 10000)
+
+cat("Vraie valeur du paramètre :", lambda0, "\n")
+cat("Moyenne a posteriori :", mean(theta.post), "\n")
+cat("Médiane a posteriori :", median(theta.post), "\n")
+print(quantile(theta.post, c(0.025, 0.975)))
 ```
 **Q5.Représenter graphiquement l’histogramme de la loi a posteriori du paramètre theta obtenu suivant l’algorithme de Metropolis-Hasting. Superposer la loi obtenue à la question 2.**
 
 ```{r}
 hist(theta.post, probability = TRUE, 
-     main = "Loi a posteriori de theta (Méthode Metropolis-Hastings)",
-     xlab = expression(theta),
-     col = "lightblue", border = "white",
-     breaks = 40)
+     main = "Posterior simulée vs. Gamma théorique",
+     xlab = expression(theta), col = "lightblue", breaks = 40)
+
+curve(dgamma(x, shape=sum(y), rate=n), 
+      col="darkgreen", lwd=2, add=TRUE)
+
+legend("topright",
+       legend = c("Posterior simulée", "Gamma théorique"),
+       col = c("lightblue", "darkgreen"),
+       lwd = c(10, 2), bty = "n")
 
 abline(v = mean(theta.post), col = "red", lwd = 2, lty = 2)
-abline(v = IC[1], col = "grey", lwd = 1.5, lty = 3)
-abline(v = IC[2], col = "grey", lwd = 1.5, lty = 3)
 
-curve(dgamma(x, shape=sum(y), rate=n), col="darkgreen", lwd=2, add=TRUE)
-legend("topleft",
-       legend = c("Posterior simulée", "Moyenne", "IC 95%", "Théorique Gamma"),
-       col = c("lightblue", "red", "darkgrey", "darkgreen"),
-       lwd = c(10, 2, 1.5, 2),
-       lty = c(1, 2, 3, 1),
-       bty = "n")
 ```
+
+### Simulation avec données sur Chamilo :
+```{r}
+set.seed(123)
+
+y_chamilo <- scan("TP3_MPA_2025.txt")
+n <- length(y_chamilo)
+theta_chamilo <- algorithme_metropolis(y_chamilo, theta.0 = 0.5, nit = 1000)
+hist(theta_chamilo, probability = TRUE, 
+main = "Posterior simulée vs. Gamma théorique",
+xlab = expression(theta), col = "lightblue", breaks = 40)
+
+abline(v = mean(theta_chamilo), col = "red", lwd = 2, lty = 2)
+
+legend("topright",
+       legend = c("Posterior simulée"),
+       col = c("lightblue"),
+       lwd = c(10), bty = "n")
+
+cat("Moyenne a posteriori :", mean(theta_chamilo), "\n")
+cat("Médiane a posteriori :", median(theta_chamilo), "\n")
+print(quantile(theta_chamilo, c(0.025, 0.975)))
+```
+
+
 
