@@ -19,7 +19,22 @@ public class Boid {
         this.position = pos;
         this.vitesse = vel;
         this.acceleration = new Vector2D(0, 0);
-    
+    }
+
+// constructeur de copie :
+    public Boid(Boid other) {
+        this.position = new Vector2D(other.position.x, other.position.y);
+        this.vitesse  = new Vector2D(other.vitesse.x, other.vitesse.y);
+        this.acceleration = new Vector2D(0, 0);
+        this.maxVitesse = other.maxVitesse;
+        this.maxForce = other.maxForce;
+    }
+
+
+    public void reInit(Vector2D pos, Vector2D vel) {
+        this.position = pos;
+        this.vitesse = vel;
+        this.acceleration = new Vector2D(0, 0);
     }
 
     public void applyForce(Vector2D force) {

@@ -21,7 +21,7 @@ public class BoidSimulator implements Simulable {
                 new Vector2D(Math.random()*2 - 1, Math.random()*2 - 1)
             );
             boids.add(bird);
-            initBoids.add(bird);
+            initBoids.add(new Boid(bird));
             drawBoid(bird);
         }
     }
@@ -46,25 +46,28 @@ public class BoidSimulator implements Simulable {
 
         int size = 10;
 
-        // Cercle principal
         gui.addGraphicalElement(new gui.Oval((int)pos.x, (int)pos.y, Color.BLUE, Color.BLUE, size));
 
-        // Indicateur de direction : un petit cercle devant
+        // Indicateur de direction
         int hx = (int)(pos.x + size * Math.cos(angle));
         int hy = (int)(pos.y + size * Math.sin(angle));
         gui.addGraphicalElement(new gui.Oval(hx, hy, Color.RED, Color.RED, size/3));
     }
 
+    public void drawFlock() {
+        gui.reset();
+        for (Boid b : boids) {
+            drawBoid(b);
+        }
+    }
+
     @Override
     public void restart(){
+        gui.reset();
         boids.clear();
         for (Boid b : initBoids) {
-            Boid newBoid = new Boid(
-                new Vector2D(b.getPosition().x, b.getPosition().y),
-                new Vector2D(b.getVelocity().x, b.getVelocity().y)
-            );
-            boids.add(newBoid);
-            drawBoid(newBoid);
+            boids.add(new Boid(b));
+            drawBoid(b);
         }
     }    
 }
