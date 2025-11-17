@@ -1,25 +1,32 @@
 import gui.GUISimulator;
+import gui.Simulable;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Polygon;
 
-public class BoidSimulator {
+public class BoidSimulator implements Simulable {
     private GUISimulator gui;
     private List<Boid> boids;
+    private List<Boid> initBoids;
 
     public BoidSimulator(GUISimulator gui, int n) {
         this.gui = gui;
         this.boids = new ArrayList<>();
+        this.initBoids = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            boids.add(new Boid(
+            Boid bird = new Boid(
                 new Vector2D(Math.random()*500, Math.random()*500),
                 new Vector2D(Math.random()*2 - 1, Math.random()*2 - 1)
-            ));
+            );
+            boids.add(bird);
+            initBoids.add(bird);
+            drawBoid(bird);
         }
     }
 
+    @Override
     public void next() {
         gui.reset();
         for (Boid b : boids) {
@@ -31,21 +38,33 @@ public class BoidSimulator {
         }
     }
 
- private void drawBoid(Boid b) {
-    Vector2D pos = b.getPosition();
-    Vector2D vel = b.getVelocity();
+    private void drawBoid(Boid b) {
+        Vector2D pos = b.getPosition();
+        Vector2D vel = b.getVelocity();
 
-    double angle = Math.atan2(vel.y, vel.x);
+        double angle = Math.atan2(vel.y, vel.x);
 
-    int size = 10;
+        int size = 10;
 
-    // Cercle principal
-    gui.addGraphicalElement(new gui.Oval((int)pos.x, (int)pos.y, Color.BLUE, Color.BLUE, size));
+        // Cercle principal
+        gui.addGraphicalElement(new gui.Oval((int)pos.x, (int)pos.y, Color.BLUE, Color.BLUE, size));
 
-    // Indicateur de direction : un petit cercle devant
-    int hx = (int)(pos.x + size * Math.cos(angle));
-    int hy = (int)(pos.y + size * Math.sin(angle));
-    gui.addGraphicalElement(new gui.Oval(hx, hy, Color.RED, Color.RED, size/3));
-}
+        // Indicateur de direction : un petit cercle devant
+        int hx = (int)(pos.x + size * Math.cos(angle));
+        int hy = (int)(pos.y + size * Math.sin(angle));
+        gui.addGraphicalElement(new gui.Oval(hx, hy, Color.RED, Color.RED, size/3));
+    }
 
+    @Override
+    public void restart(){
+        boids.clear();
+        for (Boid b : initBoids) {
+            Boid newBoid = new Boid(
+                new Vector2D(b.getPosition().x, b.getPosition().y),
+                new Vector2D(b.getVelocity().x, b.getVelocity().y)
+            );
+            boids.add(newBoid);
+            drawBoid(newBoid);
+        }
+    }    
 }
