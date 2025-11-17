@@ -31,30 +31,21 @@ public class BoidSimulator {
         }
     }
 
-    private void drawBoid(Boid b) {
-        Vector2D pos = b.getPosition();
-        Vector2D vel = b.getVelocity();
+ private void drawBoid(Boid b) {
+    Vector2D pos = b.getPosition();
+    Vector2D vel = b.getVelocity();
 
-        double angle = Math.atan2(vel.y, vel.x);
+    double angle = Math.atan2(vel.y, vel.x);
 
-        // taille du triangle
-        int size = 10;
+    int size = 10;
 
-        // coordonnées du triangle
-        int x1 = (int) (pos.x + size * Math.cos(angle));
-        int y1 = (int) (pos.y + size * Math.sin(angle));
-        int x2 = (int) (pos.x + size * Math.cos(angle + 2.5));
-        int y2 = (int) (pos.y + size * Math.sin(angle + 2.5));
-        int x3 = (int) (pos.x + size * Math.cos(angle - 2.5));
-        int y3 = (int) (pos.y + size * Math.sin(angle - 2.5));
+    // Cercle principal
+    gui.addGraphicalElement(new gui.Oval((int)pos.x, (int)pos.y, Color.BLUE, Color.BLUE, size));
 
-        Polygon triangle = new Polygon();
-        triangle.addPoint(x1, y1);
-        triangle.addPoint(x2, y2);
-        triangle.addPoint(x3, y3);
+    // Indicateur de direction : un petit cercle devant
+    int hx = (int)(pos.x + size * Math.cos(angle));
+    int hy = (int)(pos.y + size * Math.sin(angle));
+    gui.addGraphicalElement(new gui.Oval(hx, hy, Color.RED, Color.RED, size/3));
+}
 
-        gui.addGraphicalElement(new gui.Oval((int)pos.x, (int)pos.y, Color.BLUE, Color.BLUE, 10));
-
-        // gui.addGraphicalElement(new gui.PolygonElement(triangle, Color.BLUE, Color.BLUE));
-    }
 }
