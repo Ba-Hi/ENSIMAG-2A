@@ -260,7 +260,21 @@ function ExerciseTimer({ durationId }: { durationId: string }) {
   const progress = ((totalTime - timeLeft) / totalTime) * 100
 
   return (
-    <div className="w-full bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/10 shadow-lg">
+  <div className="relative w-full rounded-2xl overflow-hidden">
+
+    {/* 🌄 Background image */}
+    <div
+      className="absolute inset-0 bg-cover bg-center opacity-40"
+      style={{
+        backgroundImage: `url('/bg-timer-${durationId}.jpg')`,
+      }}
+    ></div>
+
+    {/* Overlay sombre + blur */}
+    <div className="absolute inset-0 bg-black/40 backdrop-blur-md"></div>
+
+    {/* Timer content */}
+    <div className="relative z-10 w-full rounded-2xl p-4 border border-white/10 shadow-lg">
       <div className="flex items-center justify-between mb-4">
         <div className="flex flex-col">
           <span className="text-xs text-white/70 font-medium uppercase tracking-wider">Minuteur</span>
@@ -283,6 +297,7 @@ function ExerciseTimer({ durationId }: { durationId: string }) {
               <Play className="w-4 h-4 ml-0.5" />
             )}
           </Button>
+
           {(isActive || isCompleted || timeLeft !== totalTime) && (
             <Button
               size="icon"
@@ -306,6 +321,7 @@ function ExerciseTimer({ durationId }: { durationId: string }) {
         />
       </div>
     </div>
+  </div>
   )
 }
 
