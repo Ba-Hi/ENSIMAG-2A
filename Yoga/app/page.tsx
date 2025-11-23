@@ -314,7 +314,7 @@ function Footer() {
     <footer className="relative z-10 w-full p-6 md:p-8 mt-12 border-t border-border/50 bg-background/50 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
         <div className="max-w-xl space-y-2">
-          <p className="font-medium text-foreground"> <3 </p>
+          <p className="font-medium text-foreground"> Prenez soin de vous 🧘‍♂️ </p>
           <p>
             Ce projet vise à sensibiliser aux enjeux de la santé au travail. En rendant la pratique du yoga accessible,
             nous levons les freins à la pratique et favorisons le bien-être durable des collaborateurs.
