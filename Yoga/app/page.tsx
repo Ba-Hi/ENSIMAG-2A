@@ -3,126 +3,26 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, ArrowLeft, Heart, CheckCircle2, Wind, Activity, Timer, Play, Pause, RotateCcw } from "lucide-react"
+import { EXERCISE_DATA, type ExerciseOption } from "@/lib/data"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-
-// --- DONNÉES ET IMAGES (Intégrées ici pour faciliter la modification des images) ---
-
-type ExerciseOption = {
-  id: string
-  durationLabel: string
-  theme: string
-  title: string
-  description: string
-  // ICI : On ajoute l'URL de l'image spécifique
-  imageUrl: string 
-  exercises: {
-    title: string
-    what: string
-    instructions: string[]
-  }[]
-}
-
-const EXERCISE_DATA: ExerciseOption[] = [
-  {
-    id: "1min",
-    durationLabel: "1 min",
-    theme: "Anti-Stress",
-    title: "Urgence Calme",
-    description: "Une minute pour faire redescendre la pression avant une réunion importante.",
-    // Image : Ambiance Zen / Nature / Respiration
-    imageUrl: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80",
-    exercises: [
-      {
-        title: "La Respiration Carrée",
-        what: "Reset du système nerveux",
-        instructions: [
-          "Inspirez par le nez sur 4 secondes.",
-          "Bloquez le souffle poumons pleins (4s).",
-          "Expirez par le nez (4s).",
-          "Bloquez poumons vides (4s).",
-        ],
-      },
-    ],
-  },
-  {
-    id: "3min",
-    durationLabel: "3 min",
-    theme: "Nuque & Yeux",
-    title: "Déverrouillage",
-    description: "Soulagez les tensions cervicales dues à la fixation de l'écran.",
-    // Image : Femme au bureau détendue ou focus doux
-    imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",
-    exercises: [
-      {
-        title: "Le Oui-Non-Peut-être",
-        what: "Mobilité cervicale",
-        instructions: [
-          "Tournez la tête lentement de droite à gauche.",
-          "Puis de haut en bas.",
-          "Enfin, penchez l'oreille vers l'épaule sans forcer.",
-        ],
-      },
-      {
-        title: "L'Aigle Assis",
-        what: "Ouverture des omoplates",
-        instructions: [
-          "Croisez les bras devant vous.",
-          "Mains sur les épaules opposées.",
-          "Levez les coudes à hauteur du menton.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "5min",
-    durationLabel: "5 min",
-    theme: "Dos & Hanches",
-    title: "Recharge Totale",
-    description: "Compensez la position assise prolongée pour éviter le mal de dos.",
-    // Image : Étirement plus global
-    imageUrl: "https://images.unsplash.com/photo-1544367563-12123d8965cd?w=800&q=80",
-    exercises: [
-      {
-        title: "Le Chiffre 4",
-        what: "Ouverture des hanches",
-        instructions: [
-          "Cheville droite sur genou gauche.",
-          "Dos droit, penchez-vous légèrement en avant.",
-          "Sentez l'étirement dans la fesse.",
-        ],
-      },
-      {
-        title: "La Torsion Assise",
-        what: "Détox de la colonne",
-        instructions: [
-          "Main droite sur genou gauche.",
-          "Regardez loin derrière vous.",
-          "Grandissez-vous à chaque inspiration.",
-        ],
-      },
-    ],
-  },
-]
-
-// --- COMPOSANT PRINCIPAL ---
 
 export default function Home() {
   const [selectedExercise, setSelectedExercise] = useState<ExerciseOption | null>(null)
 
   return (
-    <main className="min-h-screen flex flex-col relative overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-300">
+    <main className="min-h-screen flex flex-col relative overflow-hidden">
       {/* Background decoration */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-40">
-        <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 -left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 -left-20 w-72 h-72 bg-secondary/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl"></div>
       </div>
 
       <header className="relative z-10 w-full p-6 md:p-8 flex justify-between items-center max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
           <div className="bg-primary/10 p-2 rounded-xl text-primary">
-            <Heart className="w-6 h-6 text-indigo-600" />
+            <Heart className="w-6 h-6" />
           </div>
           <span className="font-semibold text-xl tracking-tight">Pause QVT</span>
         </div>
@@ -153,13 +53,13 @@ function LandingView({ onSelect }: { onSelect: (option: ExerciseOption) => void 
       className="flex-1 flex flex-col justify-center max-w-4xl mx-auto w-full"
     >
       <div className="space-y-6 text-center mb-12 md:mb-16">
-        <div className="inline-block px-4 py-1.5 rounded-full bg-indigo-100 text-indigo-700 text-sm font-bold mb-4">
+        <div className="inline-block px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium mb-4">
           Prévention TMS & Gestion du Stress
         </div>
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-balance">
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground text-balance">
           Votre assistant santé au bureau.
         </h1>
-        <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed text-balance">
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed text-balance">
           La sédentarité est le mal du siècle en entreprise. Ce module s'intègre à votre journée, sans changer de tenue,
           pour une démarche durable de santé au travail.
         </p>
@@ -167,7 +67,7 @@ function LandingView({ onSelect }: { onSelect: (option: ExerciseOption) => void 
 
       <div className="space-y-8">
         <h2 className="text-2xl font-semibold text-center mb-8">
-          De combien de temps disposez-vous ?
+          De combien de temps disposez-vous avant votre prochaine réunion ?
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -178,16 +78,16 @@ function LandingView({ onSelect }: { onSelect: (option: ExerciseOption) => void 
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 + 0.3 }}
               onClick={() => onSelect(option)}
-              className="group relative flex flex-col p-6 h-full bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-300 transition-all duration-300 hover:scale-[1.02] text-left"
+              className="group relative flex flex-col p-6 h-full bg-white dark:bg-card border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 text-left"
             >
               <div
                 className={cn(
                   "w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors",
                   option.id === "1min"
-                    ? "bg-orange-100 text-orange-600"
+                    ? "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
                     : option.id === "3min"
-                      ? "bg-blue-100 text-blue-600"
-                      : "bg-emerald-100 text-emerald-600",
+                      ? "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                      : "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400",
                 )}
               >
                 {option.id === "1min" ? (
@@ -202,12 +102,12 @@ function LandingView({ onSelect }: { onSelect: (option: ExerciseOption) => void 
               <div className="space-y-2 mb-4">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-2xl">{option.durationLabel}</span>
-                  <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-indigo-600" />
+                  <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                 </div>
-                <h3 className="font-medium text-slate-500">{option.theme}</h3>
+                <h3 className="font-medium text-muted-foreground">{option.theme}</h3>
               </div>
 
-              <p className="text-sm text-slate-400 mt-auto pt-4 border-t border-dashed border-slate-100">{option.description}</p>
+              <p className="text-sm text-muted-foreground mt-auto pt-4 border-t border-dashed">{option.description}</p>
             </motion.button>
           ))}
         </div>
@@ -226,50 +126,49 @@ function ExerciseView({ data, onBack }: { data: ExerciseOption; onBack: () => vo
     >
       <button
         onClick={onBack}
-        className="flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors mb-6 group w-fit"
+        className="flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mb-6 group w-fit"
       >
-        <div className="bg-white border border-slate-200 p-2 rounded-full mr-2 group-hover:bg-slate-100 transition-colors">
+        <div className="bg-secondary p-2 rounded-full mr-2 group-hover:bg-secondary/80 transition-colors">
           <ArrowLeft className="w-4 h-4" />
         </div>
         Retour à l'accueil
       </button>
 
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
-        {/* Colonne Gauche : Instructions */}
-        <div className="space-y-6 order-2 md:order-1">
+        <div className="space-y-6">
           <div className="space-y-2">
             <span
               className={cn(
-                "inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider",
+                "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium",
                 data.id === "1min"
-                  ? "bg-orange-100 text-orange-700"
+                  ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
                   : data.id === "3min"
-                    ? "bg-blue-100 text-blue-700"
-                    : "bg-emerald-100 text-emerald-700",
+                    ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+                    : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
               )}
             >
               {data.durationLabel} • {data.theme}
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">{data.title}</h2>
-            <p className="text-lg text-slate-600">{data.description}</p>
+            <h2 className="text-3xl md:text-4xl font-bold">{data.title}</h2>
+            <p className="text-lg text-muted-foreground">{data.description}</p>
           </div>
 
           <div className="space-y-6">
             {data.exercises.map((ex, i) => (
-              <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+              <div key={i} className="bg-white dark:bg-card p-6 rounded-2xl border border-border shadow-sm">
                 <div className="flex items-start gap-4">
-                  <div className="mt-1 bg-slate-100 text-slate-900 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">
+                  <div className="mt-1 bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">
                     {i + 1}
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <h3 className="font-semibold text-lg text-slate-900">{ex.title}</h3>
-                      <p className="text-sm text-indigo-600 font-bold mb-2">{ex.what}</p>
+                      <h3 className="font-semibold text-lg">{ex.title}</h3>
+                      <p className="text-sm text-primary/80 font-medium mb-2">{ex.what}</p>
                     </div>
                     <ul className="space-y-2">
                       {ex.instructions.map((step, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-slate-600 text-sm leading-relaxed">
-                          <CheckCircle2 className="w-4 h-4 mt-0.5 text-slate-400 flex-shrink-0" />
+                        <li key={idx} className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed">
+                          <CheckCircle2 className="w-4 h-4 mt-0.5 text-muted-foreground/50 flex-shrink-0" />
                           <span>{step}</span>
                         </li>
                       ))}
@@ -281,17 +180,15 @@ function ExerciseView({ data, onBack }: { data: ExerciseOption; onBack: () => vo
           </div>
 
           <div className="pt-4">
-            <Button onClick={onBack} size="lg" className="w-full md:w-auto rounded-full bg-slate-900 text-white hover:bg-slate-800">
+            <Button onClick={onBack} size="lg" className="w-full md:w-auto rounded-full">
               Terminer la pause
             </Button>
           </div>
         </div>
 
-        {/* Colonne Droite : Image & Timer */}
-        <div className="relative aspect-[4/5] md:aspect-square w-full rounded-3xl overflow-hidden bg-slate-200 shadow-2xl sticky top-8 group order-1 md:order-2">
-          {/* L'image est maintenant chargée depuis data.imageUrl */}
+        <div className="relative aspect-[4/5] md:aspect-square w-full rounded-3xl overflow-hidden bg-muted shadow-xl sticky top-8 group">
           <img
-            src={data.imageUrl}
+            src={`/.jpg?key=gusd9&height=800&width=800&query=${encodeURIComponent(data.placeholderQuery)}`}
             alt={data.theme}
             className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
           />
@@ -300,7 +197,7 @@ function ExerciseView({ data, onBack }: { data: ExerciseOption; onBack: () => vo
             <ExerciseTimer durationId={data.id} />
 
             <div className="text-white mt-6">
-              <p className="font-medium text-white/80 uppercase tracking-wider text-xs mb-2">Focus actuel</p>
+              <p className="font-medium text-white/80 uppercase tracking-wider text-xs mb-2">Focus</p>
               <p className="text-2xl font-bold">{data.theme}</p>
             </div>
           </div>
@@ -375,7 +272,7 @@ function ExerciseTimer({ durationId }: { durationId: string }) {
           <Button
             size="icon"
             variant="secondary"
-            className="h-10 w-10 rounded-full bg-white text-black hover:bg-white/90 transition-colors border-0"
+            className="h-10 w-10 rounded-full bg-white text-black hover:bg-white/90 transition-colors"
             onClick={toggleTimer}
           >
             {isCompleted ? (
@@ -414,12 +311,13 @@ function ExerciseTimer({ durationId }: { durationId: string }) {
 
 function Footer() {
   return (
-    <footer className="relative z-10 w-full p-6 md:p-8 mt-12 border-t border-slate-200/50 bg-slate-50/50 backdrop-blur-sm">
-      <div className="max-w-6xl mx-auto text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+    <footer className="relative z-10 w-full p-6 md:p-8 mt-12 border-t border-border/50 bg-background/50 backdrop-blur-sm">
+      <div className="max-w-6xl mx-auto text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
         <div className="max-w-xl space-y-2">
-          <p className="font-medium text-slate-900"> Prenez soin de vous 🧘‍♂️ </p>
+          <p className="font-medium text-foreground"> <3 </p>
           <p>
-            Projet CT5 • RSE & Santé au travail
+            Ce projet vise à sensibiliser aux enjeux de la santé au travail. En rendant la pratique du yoga accessible,
+            nous levons les freins à la pratique et favorisons le bien-être durable des collaborateurs.
           </p>
         </div>
         <div className="text-xs opacity-50">© {new Date().getFullYear()} Pause QVT</div>
